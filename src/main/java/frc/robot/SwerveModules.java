@@ -14,7 +14,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModuletate;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DutyCycle;
@@ -39,7 +38,8 @@ public class SwerveModules extends SubsystemBase {
   private PositionVoltage pv = new PositionVoltage(0);
   public int modNumber;
   
-  public SwerveModule(int modNumber, int drivemotor, int turnmotor, int cancoder, Rotation2d angleOfset) {
+  //constructor intialization
+  public SwerveModules(int modNumber, int drivemotor, int turnmotor, int cancoder, Rotation2d angleOfset) {
     this.drivemotor = new TalonFX(drivemotor);
     this.turnmotor = new TalonFX(turnmotor);
     this.cancoder = new CANcoder(cancoder);
@@ -57,66 +57,48 @@ public class SwerveModules extends SubsystemBase {
     resetToAbsolute();
   }
 
+  //returns rotation2d object of the absolute cancoder rotation, of specified module
   public Rotation2d getCANcoder(){
     return Rotation2d.fromRotations(cancoder.getAbsolutePosition().getValueAsDouble());
   }
 
+  //removes offset from absolute position (for calibration)
   public void resetToAbsolute(){
-    //cancoder rotation in rotations subtract the ofset in rotations
-    //set angle motor to absolute position
     double absolutePosition = getCANcoder().getRotations()-angleOfset.getRotations();
     turnmotor.setPosition(absolutePosition);
   }
   
-  //FIRST METHOD
-  //for swerve module position get the position
-  //SwerveModulePosition pass in the drive motor position with wheel circumference and-
-  //the rotation 2d of the angle motor
-  //it will automatically calculate position to x, y
-  //convert to meters
-  //return the class
+  //returns SwerveModulePosition object of the drivemotor position in distance and Rotation2d with rotation of turnmotor
   public SwerveModulePosition getPosition(){
     return new SwerveModulePosition(Conversions.rotationsToMeters(drivemotor.getPosition().getValueAsDouble(), Constants.Swerve.wheelCircumference), Rotation2d.fromRotations(turnmotor.getPosition().getValueAsDouble()));
 
 
   }
-  //SECOND METHOD
-  //SwerveModuleState is the class name takes in angle as in rotation 2d and also takes in velocity
-  //this tells the module how to move (what rotation and what speed)
-  //Only changes are from getPos are "SwerveModuleState" and get.velocity
+
+  //returns SwerveModuleState object with the speed of the wheel of the module derived from the drivemotor, and angle of module derived from the turnmotor position
   public SwerveModuleState getState(){
     return new SwerveModuleState(Conversions.rotationsToMeters(drivemotor.getVelocity().getValueAsDouble(), Constants.Swerve.wheelCircumference), Rotation2d.fromRotations(turnmotor.getPosition().getValueAsDouble()));
 
   } 
 
-  private void setDesiredState(SwerveModuletate desiredState, boolean isOpenLoop) {
-    SwerveModuleState optimize = SwerveModuleState.optimize(desiredState, getState().angle);//use the get state method to get the angle 
-    turnmotor.setControl(pv.withPosition(optimize.angle.getRotations()));
-    setSpeed(optimize, isOpenLoop);
-  }
-  // public SwerveModuleState[] getModuleStates(){
-  //       SwerveModuleState[] states = new SwerveModuleState[4];
-  //       for(SwerveModule mod : mSwerveMods){
-  //           states[mod.moduleNumber] = mod.getState();
-  //       }
-  //       return states;
-  //   }
 
-  //   public SwerveModulePosition[] getModulePositions(){
-  //       SwerveModulePosition[] positions = new SwerveModulePosition[4];
-  //       for(SwerveModule mod : mSwerveMods){
-  //           positions[mod.moduleNumber] = mod.getPosition();
-  //       }
-  //       return positions;
-  //   }
-  private void setSpeed(SwerveModuletate desiredState, boolean isOpenLoop){
+  //optimize wheel rotation path
+  public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
+    SwerveModuleState optimizedModuleState = desiredState;
+    optimizedModuleState.optimize(getState().angle);
+    turnmotor.setControl(pv.withPosition(optimizedModuleState.angle.getRotations()));
+    setSpeed(optimizedModuleState, isOpenLoop);
+  }
+
+  //Based on if the parameter is open or closed loop the velocity and/or feedforward is set
+  private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop){
     if(isOpenLoop){
       dco.Output = desiredState.speedMetersPerSecond / Constants.Swerve.maxSpeed;
       drivemotor.setControl(dco);
       }
-      else{
+    else{
         driveVelocity.Velocity = Conversions.MPSToRPS(desiredState.speedMetersPerSecond, Constants.Swerve.wheelCircumference);
-        driveVelocity.FeedForward = driveFeedForward.calculate(desiredState.speedMetersPerSecond); //method called .calculate use drivefeedforward class and apply that method desired state but in .speedmeterspersecond      }
+        driveVelocity.FeedForward = driveFeedForward.calculate(desiredState.speedMetersPerSecond); 
       }
   }
   @Override

@@ -7,6 +7,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Climb;
+import frc.robot.subsystems.Climb.states;
+
 
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -20,7 +22,7 @@ public class reset extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    RobotContainer.m_Climb.set_state(states.NOT_INTIALIZED);
   }
   boolean getLimitSwitch(){
     return RobotContainer.m_Climb.limitswitch1.get();
@@ -29,8 +31,11 @@ public class reset extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (getLimitSwitch() == false) {
+    if (getLimitSwitch() == true) {
       RobotContainer.m_Climb.reset_pos();
+      RobotContainer.m_Climb.set_state(states.INTIALIZING);
+    } else {
+      RobotContainer.m_Climb.set_state(states.INTIALIZED);
     }
   }
 

@@ -15,11 +15,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climb extends SubsystemBase {
 
-  public enum state {
+
+  public enum states {
     NOT_INTIALIZED,
     INTIALIZING,
     INTIALIZED
   }
+
+  public states current_state = states.NOT_INTIALIZED;
   /** Creates a new Climb. */
   TalonFX motor = new TalonFX(0);
   TalonFXConfiguration config = new TalonFXConfiguration();
@@ -50,6 +53,10 @@ public class Climb extends SubsystemBase {
 
   public void reset() {
     motor.setPosition(0);
+  }
+
+  public void set_state(states target_state) {
+    current_state = target_state;
   }
 
 

@@ -18,12 +18,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-//TO-DO
-//get rotation 2d from cancoder: getAbsolutePosition
-//reset cancoder position
-//make a state
-//get a module position state
-//convert to meters instead of rotations
 import frc.lib.math.Conversions;
 
 public class SwerveModules extends SubsystemBase {

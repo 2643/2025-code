@@ -4,11 +4,56 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climb extends SubsystemBase {
+
+  public enum state {
+    NOT_INTIALIZED,
+    INTIALIZING,
+    INTIALIZED
+  }
   /** Creates a new Climb. */
-  public Climb() {}
+  TalonFX motor = new TalonFX(0);
+  TalonFXConfiguration config = new TalonFXConfiguration();
+  public DigitalInput limitswitch1 = new DigitalInput(0);
+
+  public Climb() {
+
+
+
+    var slot0Configs = config.Slot0; 
+    slot0Configs.kP = 1;
+    slot0Configs.kI = 9;
+    slot0Configs.kD = 7;
+
+    motor.getConfigurator().apply(config);
+    motor.setNeutralMode(NeutralModeValue.Brake);
+    
+
+  }
+
+  public void move_motor(double pos) {
+    motor.setControl(new MotionMagicVoltage(pos));
+  }
+
+  public void reset_pos() {
+    motor.setControl(new DutyCycleOut(1));
+  }
+
+  public void reset() {
+    motor.setPosition(0);
+  }
+
+
+
 
   @Override
   public void periodic() {

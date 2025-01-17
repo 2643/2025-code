@@ -5,21 +5,34 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Climb;
+
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class reset extends Command {
+
   /** Creates a new reset. */
   public reset() {
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(RobotContainer.m_Climb);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    
+  }
+  boolean getLimitSwitch(){
+    return RobotContainer.m_Climb.limitswitch1.get();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (getLimitSwitch() == false) {
+      RobotContainer.m_Climb.reset_pos();
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

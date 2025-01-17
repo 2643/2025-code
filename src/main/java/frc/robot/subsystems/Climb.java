@@ -12,6 +12,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 
 public class Climb extends SubsystemBase {
 
@@ -22,11 +23,12 @@ public class Climb extends SubsystemBase {
     INTIALIZED
   }
 
-  public states current_state = states.NOT_INTIALIZED;
+  public states current_state = states.INTIALIZING;
   /** Creates a new Climb. */
   TalonFX motor = new TalonFX(0);
   TalonFXConfiguration config = new TalonFXConfiguration();
   public DigitalInput limitswitch1 = new DigitalInput(0);
+  MotionMagicVoltage do_thing = new MotionMagicVoltage(0);
 
   public Climb() {
 
@@ -47,9 +49,7 @@ public class Climb extends SubsystemBase {
     motor.setControl(new MotionMagicVoltage(pos));
   }
 
-  public void reset_pos() {
-    motor.setControl(new DutyCycleOut(1));
-  }
+
 
   public void reset() {
     motor.setPosition(0);
@@ -59,11 +59,37 @@ public class Climb extends SubsystemBase {
     current_state = target_state;
   }
 
+  public boolean getLimitSwitch(){
+    return RobotContainer.m_Climb.limitswitch1.get();
+  }
+
+  public void disable_motor() {
+    motor.disable();
+  }
+
+  public void set_pos() {
+    motor.setPosition(0);
+  }
+
+  public double get_pos() {
+    return motor.getPosition().getValueAsDouble();
+  }
+
 
 
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    switch (current_state) {
+      case NOT_INTIALIZED:
+        
+        break;
+    
+      case INTIALIZING:
+        
+      case INTIALIZED:
+
+    }
   }
 }

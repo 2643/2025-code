@@ -31,7 +31,7 @@ public class reset extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (getLimitSwitch() == true) {
+    if (getLimitSwitch() == true & RobotContainer.m_Climb.current_state != states.INTIALIZED) {
       RobotContainer.m_Climb.reset_pos();
       RobotContainer.m_Climb.set_state(states.INTIALIZING);
     } else {

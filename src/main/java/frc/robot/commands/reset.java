@@ -23,27 +23,33 @@ public class reset extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.m_Climb.set_state(states.INTIALIZING);
+    if (!RobotContainer.m_Climb.getLimitSwitch()) {
+      RobotContainer.m_Climb.current_state = states.NOT_INTIALIZED;
+      finish = true;
+    } else {
+      RobotContainer.m_Climb.current_state = states.INTIALIZING;
+    }
+    
   }
 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.m_Climb.getLimitSwitch() == true & RobotContainer.m_Climb.current_state != states.INTIALIZED) {
+    if (RobotContainer.m_Climb.current_state == states.INTIALIZING && RobotContainer.m_Climb.getLimitSwitch()) {
       RobotContainer.m_Climb.move_motor(RobotContainer.m_Climb.get_pos()+0.3);
-      RobotContainer.m_Climb.set_state(states.INTIALIZING);
     } else {
-      RobotContainer.m_Climb.set_state(states.INTIALIZED);
+      RobotContainer.m_Climb.current_state = states.INTIALIZED;
+      RobotContainer.m_Climb.set_pos();
+      RobotContainer.m_Climb.move_motor(0);
       finish = true;
+
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_Climb.set_pos();
-    RobotContainer.m_Climb.move_motor(0);
   }
 
   // Returns true when the command should end.

@@ -28,7 +28,6 @@ public class Climb extends SubsystemBase {
   TalonFX motor = new TalonFX(0);
   TalonFXConfiguration config = new TalonFXConfiguration();
   public DigitalInput limitswitch1 = new DigitalInput(0);
-  MotionMagicVoltage do_thing = new MotionMagicVoltage(0);
 
   public Climb() {
 
@@ -38,6 +37,9 @@ public class Climb extends SubsystemBase {
     slot0Configs.kP = 1;
     slot0Configs.kI = 9;
     slot0Configs.kD = 7;
+
+    config.MotionMagic.MotionMagicAcceleration = 60;
+    config.MotionMagic.MotionMagicCruiseVelocity = 60;
 
     motor.getConfigurator().apply(config);
     motor.setNeutralMode(NeutralModeValue.Brake);
@@ -51,9 +53,6 @@ public class Climb extends SubsystemBase {
 
 
 
-  public void reset() {
-    motor.setPosition(0);
-  }
 
   public void set_state(states target_state) {
     current_state = target_state;

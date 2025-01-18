@@ -6,8 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
-import frc.robot.commands.TeleopSwerve;
-import frc.robot.commands.Swerve.AutoSwerve;
+import frc.robot.commands.Swerve.TeleopSwerve;
 import frc.robot.subsystems.Swerve;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.units.measure.Acceleration;
@@ -17,6 +16,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -30,7 +30,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final AutoSwerve m_exampleSubsystem = new AutoSwerve();
+  // private final AutoSwerve m_exampleSubsystem = new AutoSwerve();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -59,13 +59,10 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new TeleopSwerve(m_exampleSubsystem));
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading())
+    
+    
+    );
   }
 
   /**

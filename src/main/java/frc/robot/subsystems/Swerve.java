@@ -2,10 +2,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.swerve.SwerveModule;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -46,7 +48,7 @@ public class Swerve extends SubsystemBase {
         getPose());
   }
 
-  //return modulestates of all swerve modules in a list
+  // return modulestates of all swerve modules in a list
   public SwerveModuleState[] getModuleStates() {
     SwerveModuleState[] states = new SwerveModuleState[4];
     for (SwerveModules mod : mSwerveMods) {
@@ -55,8 +57,7 @@ public class Swerve extends SubsystemBase {
     return states;
   }
 
-  
-  //return modulestates of all swerve modules in a list
+  // return modulestates of all swerve modules in a list
   public SwerveModulePosition[] getModulePositions() {
     SwerveModulePosition[] positions = new SwerveModulePosition[4];
     for (SwerveModules mod : mSwerveMods) {
@@ -65,7 +66,27 @@ public class Swerve extends SubsystemBase {
     return positions;
   }
 
-  //set speeds of all modules and move to current location
+  //move to set location 
+  public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
+    SwerveModuleState[] swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(
+        fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
+            translation.getX(),
+            translation.getY(),
+            rotation,
+            getHeading())
+            : new ChassisSpeeds(
+                translation.getX(),
+                translation.getY(),
+                rotation));
+    mSpeeds = new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
+
+    for (SwerveModules mod : mSwerveMods) {
+      mod.setDesiredState(swerveModuleStates[mod.modNumber], isOpenLoop);
+    }
+  }
+
+  // set speeds of all modules and move to current location
   public void drive(ChassisSpeeds speeds) {
     SwerveModuleState[] swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(speeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
@@ -81,47 +102,49 @@ public class Swerve extends SubsystemBase {
 
   /* Used by SwerveControllerCommand in Auto */
   public void setModuleStates(SwerveModuleState[] desiredStates) {
-    //renormalize wheelspeeds
+    // renormalize wheelspeeds
     SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
 
-    //move to desired state with optimization
+    // move to desired state with optimization
     for (SwerveModules mod : mSwerveMods) {
       mod.setDesiredState(desiredStates[mod.modNumber], true);
     }
   }
 
-  //return current position of swerveodometry (the chassis internal positioning system)
+  // return current position of swerveodometry (the chassis internal positioning
+  // system)
   public Pose2d getPose() {
     return swerveOdometry.getPoseMeters();
   }
 
-  //Change the position of the swerveodometry
+  // Change the position of the swerveodometry
   public void setPose(Pose2d pose) {
     swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), pose);
   }
 
-  //get the direction of robot face
+  // get the direction of robot face
   public Rotation2d getHeading() {
     return getPose().getRotation();
   }
 
-  //change the direct of the robot face (use the current position to get there)
+  // change the direct of the robot face (use the current position to get there)
   public void setHeading(Rotation2d heading) {
     swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(), new Pose2d(getPose().getTranslation(), heading));
   }
 
-  //reset heading to 0 degrees
+  // reset heading to 0 degrees
   public void zeroHeading() {
     swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(),
         new Pose2d(getPose().getTranslation(), new Rotation2d()));
   }
 
-  //returns curent rotation
+  // returns curent rotation
   public Rotation2d getGyroYaw() {
     return Rotation2d.fromDegrees(gyro.getYaw().getValueAsDouble());
   }
 
-  //reset all modules to absolute postion (what was recorded previously, accounts for offsets)
+  // reset all modules to absolute postion (what was recorded previously, accounts
+  // for offsets)
   public void resetModulesToAbsolute() {
     for (SwerveModules mod : mSwerveMods) {
       mod.resetToAbsolute();

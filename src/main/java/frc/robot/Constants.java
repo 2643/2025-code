@@ -31,39 +31,46 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+  public static final double stickRotationDeadband = 0.3;
+  public static final double stickDeadband = 0.05;
+  public static final int X_AXIS_PORT = 0;
+  public static final int Y_AXIS_PORT = 1;
+  public static final int ROTATIONAL_AXIS_PORT = 2;
+
+  public static final boolean FIELD_RELATIVE_MODE = true;
 
   public static class Swerve {
     public static final class Mod0 {
-      public static final int driveMotorID = 2;
-      public static final int angleMotorID = 1;
-      public static final int canCoderID = 3;
+      public static final int driveMotorID = 1;
+      public static final int angleMotorID = 3;
+      public static final int canCoderID = 2;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-86.48375 + 180);
        
     }
 
     public static final class Mod1 {
-      public static final int driveMotorID = 2;
-      public static final int angleMotorID = 1;
-      public static final int canCoderID = 3;
+      public static final int driveMotorID = 4;
+      public static final int angleMotorID = 6;
+      public static final int canCoderID = 5;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-86.48375 + 180);
     }
 
     public static final class Mod2 {
-      public static final int driveMotorID = 2;
-      public static final int angleMotorID = 1;
-      public static final int canCoderID = 3;
+      public static final int driveMotorID = 8;
+      public static final int angleMotorID = 10;
+      public static final int canCoderID = 9;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-86.48375 + 180);
     }
 
     public static final class Mod3 {
-      public static final int driveMotorID = 2;
-      public static final int angleMotorID = 1;
-      public static final int canCoderID = 3;
+      public static final int driveMotorID = 11;
+      public static final int angleMotorID = 13;
+      public static final int canCoderID = 12;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-86.48375 + 180);
     }
 
     public static final double MAX_RADIANS_PER_SECOND = 12.773732;
-    public static final int pigeonID = 13;
+    public static final int pigeonID = 7;
 
     public static final COTSTalonFXSwerveConstants chosenModule = COTSTalonFXSwerveConstants.SDS.MK4i
         .Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);

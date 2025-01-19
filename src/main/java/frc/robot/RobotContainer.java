@@ -39,7 +39,7 @@ public class RobotContainer {
   ComplexWidget ShuffleBoardAutonomousRoutines = Shuffleboard.getTab("Driver").add("Autonomous Routines Selector", autoChooser).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 2).withPosition(0, 2);
 
 
-  public static Joystick driver = new Joystick(1);
+  public static Joystick driver = new Joystick(0);
   public  JoystickButton zeroGyro = new JoystickButton(driver, 8);
   public static JoystickButton robotCentric = new JoystickButton(driver, 7);
   public static Swerve s_Swerve = new Swerve();

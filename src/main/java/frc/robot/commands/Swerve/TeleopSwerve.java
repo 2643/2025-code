@@ -40,6 +40,7 @@ public class TeleopSwerve extends Command {
   // private static final GenericEntry betterEncoderEntry = Shuffleboard.getTab("Swerve").add("Encoder Target Angle", 0).getEntry();
 
   public TeleopSwerve() {
+    System.out.println("Swerve Initialized");
     addRequirements(RobotContainer.s_Swerve);
     // rotPid = new ProfiledPIDController(encoderkP, encoderkI, encoderkD, new TrapezoidProfile.Constraints(10000, 10000));
     // rotPid.enableContinuousInput(0, 360);
@@ -61,8 +62,8 @@ public class TeleopSwerve extends Command {
     // rotPid.setD(dEntry.getDouble(encoderkD));
     // betterEncoderEntry.setDouble(betterEncoderAngle);
 
-    translationSup = () -> -RobotContainer.driver.getRawAxis(1);
-    strafeSup = () -> -RobotContainer.driver.getRawAxis(2);
+    translationSup = () -> -RobotContainer.driver.getRawAxis(0);
+    strafeSup = () -> -RobotContainer.driver.getRawAxis(1);
     rotationSup = () -> RobotContainer.driver.getRawAxis(4);
     robotCentricSup = () -> RobotContainer.robotCentric.getAsBoolean();
 

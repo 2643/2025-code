@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.Map;
+
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.swerve.SwerveModule;
@@ -13,6 +15,12 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.SwerveModules;
@@ -25,10 +33,16 @@ public class Swerve extends SubsystemBase {
   public static Pigeon2 gyro;
   public ChassisSpeeds mSpeeds;
   public SwerveDrivePoseEstimator robotPose;
+  
+  Field2d field = new Field2d();
+    ComplexWidget fieldShuffleboard = Shuffleboard.getTab("Field").add("2025-Field", field).withWidget(BuiltInWidgets.kField).withProperties(Map.of("robot icon size", 20));
+    GenericEntry swerveAngleEntry = Shuffleboard.getTab("Swerve").add("Swerve Angle", 0).getEntry();
+    GenericEntry encoderAngleEntry = Shuffleboard.getTab("Swerve").add("Encoder Angle",0).getEntry();
+    
 
   public Swerve() {
 
-    Pigeon2 gyro = new Pigeon2(Constants.Swerve.pigeonID);
+    gyro = new Pigeon2(Constants.Swerve.pigeonID);
     gyro.getConfigurator().apply(new Pigeon2Configuration());
     gyro.setYaw(0);
 
@@ -154,5 +168,13 @@ public class Swerve extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    for(SwerveModules mod : mSwerveMods){
+            SmartDashboard.putNumber("Mod " + mod.modNumber + " CANcoder", mod.getCANcoder().getDegrees());
+            SmartDashboard.putNumber("Mod " + mod.modNumber + " Angle", mod.getPosition().angle.getDegrees());
+            SmartDashboard.putNumber("Mod " + mod.modNumber + " Velocity", mod.getState().speedMetersPerSecond);  
+            
+        
+
+        }
   }
 }

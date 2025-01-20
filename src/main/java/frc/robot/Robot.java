@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
   }
-
+  
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
@@ -75,9 +75,14 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    System.out.println("hi");
     CommandScheduler.getInstance().setDefaultCommand(RobotContainer.s_Swerve, new TeleopSwerve());
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+      m_autonomousCommand.cancel()
+      
+      
+      
+      ;
     }
   }
 

@@ -7,6 +7,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.Constants;
@@ -37,12 +38,13 @@ public class TeleopSwerve extends Command {
 
   @Override
   public void execute() {
-    translationSup = () -> -RobotContainer.driver.getRawAxis(1);
+    translationSup = () -> RobotContainer.driver.getRawAxis(1);
     strafeSup = () -> RobotContainer.driver.getRawAxis(0);
     rotationSup = () -> RobotContainer.driver.getRawAxis(4);
     robotCentricSup = () -> RobotContainer.robotCentric.getAsBoolean();
 
     if (initFlag) {
+      RobotContainer.s_Swerve.resetModulesToAbsolute();
       RobotContainer.s_Swerve.zeroHeading();
       initFlag = false;
     }
@@ -56,6 +58,9 @@ public class TeleopSwerve extends Command {
     double strafeVal = squareAxis(logAxis(strafeSup.getAsDouble()), Constants.stickDeadband);
     rawrotationEntry.setDouble(rawRotation);
     rotationsupEntry.setDouble(rotationSup.getAsDouble());
+    SmartDashboard.putNumber("rawrotation", rawRotation);
+    SmartDashboard.putNumber("rotationsup", rotationSup.getAsDouble());
+
     RobotContainer.s_Swerve.drive(
         new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed),
         rawRotation,

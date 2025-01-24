@@ -86,7 +86,7 @@ public class SwerveModules extends SubsystemBase {
 
   // optimize wheel rotation path
   public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
-    desiredState.optimize(getState().angle);
+    //desiredState.optimize(getState().angle);
     desiredstatereturn = desiredState.angle.getRotations();
     turnmotor.setControl(pv.withPosition(desiredState.angle.getRotations()));
     setSpeed(desiredState, isOpenLoop);
@@ -108,6 +108,7 @@ public class SwerveModules extends SubsystemBase {
       driveVelocity.Velocity = Conversions.MPSToRPS(desiredState.speedMetersPerSecond,
           Constants.Swerve.wheelCircumference);
       driveVelocity.FeedForward = driveFeedForward.calculate(desiredState.speedMetersPerSecond);
+      drivemotor.setControl(driveVelocity);
     }
   }
 

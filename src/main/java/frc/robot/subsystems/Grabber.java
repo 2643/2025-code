@@ -32,7 +32,7 @@ public class Grabber extends SubsystemBase {
   SparkMaxConfig config = new SparkMaxConfig();
   MAXMotionConfig maxMotionConfig = new MAXMotionConfig();
   SparkClosedLoopController maxController = max.getClosedLoopController();
-  TalonFX turning = new TalonFX(0);
+  TalonFX turning = new TalonFX(7);
   TalonFXConfiguration talonConfig = new TalonFXConfiguration();
   MotionMagicVoltage motion = new MotionMagicVoltage(0);
   DigitalInput limitswitch = new DigitalInput(0);
@@ -47,8 +47,8 @@ public class Grabber extends SubsystemBase {
     slot0config.kI = 0;
     slot0config.kD = 0;
 
-    magicmotionconfig.MotionMagicAcceleration = 0;
-    magicmotionconfig.MotionMagicCruiseVelocity = 0;
+    magicmotionconfig.MotionMagicAcceleration = 30;
+    magicmotionconfig.MotionMagicCruiseVelocity = 30;
 
     turning.getConfigurator().apply(talonConfig);
 
@@ -60,7 +60,7 @@ public class Grabber extends SubsystemBase {
     max.configure(config, null, null);
 
    
-    maxLeader.set(.07);
+    // maxLeader.set(.07);
   }
 
   public double getOutputCurrent(){
@@ -75,8 +75,8 @@ public class Grabber extends SubsystemBase {
     turning.setPosition(pos);
   }
 
-  public void moveNeos(double speed){
-    maxLeader.getClosedLoopController().setReference(speed, ControlType.kCurrent);
+  public void moveNeos(double speed){ 
+    maxLeader.set(speed);
   }
 
   public void moveTurningMotor(double pos){

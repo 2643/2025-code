@@ -29,7 +29,7 @@ public class moveL1 extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_Grabber.moveTurningMotor(0);
+    RobotContainer.m_Grabber.moveTurningMotor(100);
   }
 
   // Returns true when the command should end.

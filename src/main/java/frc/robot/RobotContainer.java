@@ -10,6 +10,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.intake;
 import frc.robot.commands.moveL1;
 import frc.robot.commands.outtake;
+import frc.robot.commands.stopNeos;
 import frc.robot.subsystems.Grabber;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
@@ -29,9 +30,9 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static final Grabber m_Grabber = new Grabber();
   public static final Joystick m_Joystick = new Joystick(0);
-  public static final JoystickButton m_IntakeButton = new JoystickButton(m_Joystick, 0);
-  public static final JoystickButton m_OuttakeButton = new JoystickButton(m_Joystick, 1);
-  public static final JoystickButton m_L1 = new JoystickButton(m_Joystick, 2);
+  public static final JoystickButton m_IntakeButton = new JoystickButton(m_Joystick, 1);
+  public static final JoystickButton m_OuttakeButton = new JoystickButton(m_Joystick, 2);
+  public static final JoystickButton m_L1 = new JoystickButton(m_Joystick, 3);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -55,6 +56,8 @@ public class RobotContainer {
   private void configureBindings() {
     m_IntakeButton.onTrue(new intake());
     m_OuttakeButton.onTrue(new outtake());
+    m_IntakeButton.onFalse(new stopNeos());
+    m_OuttakeButton.onFalse(new stopNeos());
     m_L1.onTrue(new moveL1());
   }
 

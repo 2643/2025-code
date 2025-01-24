@@ -29,7 +29,7 @@ public class intake extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_Grabber.moveNeos(-0.5);
+    RobotContainer.m_Grabber.moveNeos(-0.07);
   }
 
   // Returns true when the command should end.

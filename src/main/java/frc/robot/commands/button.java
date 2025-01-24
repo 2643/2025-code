@@ -29,7 +29,7 @@ public class button extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_Climb.move_motor(5);
+    RobotContainer.m_Climb.move_motor(RobotContainer.m_Climb.get_pos()+50);
   }
 
   // Returns true when the command should end.

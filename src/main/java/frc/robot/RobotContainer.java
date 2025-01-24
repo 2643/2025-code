@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.button;
+import frc.robot.commands.reset;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,8 +26,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static final Climb m_Climb = new Climb();
-  public static Joystick m_Joystick = new Joystick(0);
-  public static JoystickButton m_JoystickButton = new JoystickButton(m_Joystick, 0);
+  public static Joystick m_Joystick = new Joystick(1);
+  public static JoystickButton m_JoystickButton = new JoystickButton(m_Joystick, 1);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =

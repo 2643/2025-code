@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
@@ -25,9 +26,10 @@ public class Climb extends SubsystemBase {
 
   public states current_state = states.INTIALIZING;
   /** Creates a new Climb. */
-  TalonFX motor = new TalonFX(0);
+  TalonFX motor = new TalonFX(13);
   TalonFXConfiguration config = new TalonFXConfiguration();
   public DigitalInput limitswitch1 = new DigitalInput(0);
+  public CurrentLimitsConfigs currentconfig = new CurrentLimitsConfigs();
 
   public Climb() {
 
@@ -35,13 +37,15 @@ public class Climb extends SubsystemBase {
 
     var slot0Configs = config.Slot0; 
     slot0Configs.kP = 1;
-    slot0Configs.kI = 9;
-    slot0Configs.kD = 7;
+    slot0Configs.kI = 0;
+    slot0Configs.kD = 0;
 
-    config.MotionMagic.MotionMagicAcceleration = 60;
-    config.MotionMagic.MotionMagicCruiseVelocity = 60;
+    config.MotionMagic.MotionMagicAcceleration = 20;
+    config.MotionMagic.MotionMagicCruiseVelocity = 20;
+    currentconfig.StatorCurrentLimit = 3;
 
     motor.getConfigurator().apply(config);
+    motor.getConfigurator().apply(currentconfig);
     motor.setNeutralMode(NeutralModeValue.Brake);
     
 

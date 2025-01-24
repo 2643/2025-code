@@ -42,6 +42,7 @@ public class reset extends Command {
       RobotContainer.m_Climb.current_state = states.INTIALIZED;
       RobotContainer.m_Climb.set_pos();
       RobotContainer.m_Climb.move_motor(0);
+      RobotContainer.m_Climb.disable_motor();
       finish = true;
 
     }

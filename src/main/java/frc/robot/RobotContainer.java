@@ -7,9 +7,17 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.L1;
+import frc.robot.commands.L2;
+import frc.robot.commands.L3;
+import frc.robot.commands.L4;
+import frc.robot.commands.reset;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.motor;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -21,6 +29,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  public static motor m_motor = new motor();
+  public static Joystick driver = new Joystick(0);
+  public static JoystickButton resetButton = new JoystickButton(driver, 0);
+  public static JoystickButton L1Button = new JoystickButton(driver, 1);
+  public static JoystickButton L2Button = new JoystickButton(driver, 2);
+  public static JoystickButton L3Button = new JoystickButton(driver, 3);
+  public static JoystickButton L4Button = new JoystickButton(driver, 4);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -45,7 +60,11 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
-
+      resetButton.onTrue(new reset());
+      L1Button.onTrue(new L1());
+      L2Button.onTrue(new L2());
+      L3Button.onTrue(new L3());
+      L4Button.onTrue(new L4());
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());

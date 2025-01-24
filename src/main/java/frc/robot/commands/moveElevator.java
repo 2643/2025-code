@@ -5,11 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.motor;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class moveElevator extends Command {
   /** Creates a new moveElevator. */
   public moveElevator() {
+    addRequirements(RobotContainer.m_motor);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -27,7 +30,7 @@ public class moveElevator extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
+    motor.movePosition(RobotContainer.m_motor.getPosition()+200);
   }
 
   // Returns true when the command should end.

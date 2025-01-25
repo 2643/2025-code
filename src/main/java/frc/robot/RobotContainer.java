@@ -9,7 +9,11 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.intake;
 import frc.robot.commands.moveL1;
+import frc.robot.commands.moveL2;
+import frc.robot.commands.moveL3;
+import frc.robot.commands.moveL4;
 import frc.robot.commands.outtake;
+import frc.robot.commands.reset;
 import frc.robot.commands.stopNeos;
 import frc.robot.subsystems.Grabber;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -33,6 +37,10 @@ public class RobotContainer {
   public static final JoystickButton m_IntakeButton = new JoystickButton(m_Joystick, 1);
   public static final JoystickButton m_OuttakeButton = new JoystickButton(m_Joystick, 2);
   public static final JoystickButton m_L1 = new JoystickButton(m_Joystick, 3);
+  public static final JoystickButton m_L2 = new JoystickButton(m_Joystick, 4);
+  public static final JoystickButton m_L3 = new JoystickButton(m_Joystick, 5);
+  public static final JoystickButton m_L4 = new JoystickButton(m_Joystick, 6);
+  public static final JoystickButton m_Reset = new JoystickButton(m_Joystick, 7);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -59,6 +67,10 @@ public class RobotContainer {
     m_IntakeButton.onFalse(new stopNeos());
     m_OuttakeButton.onFalse(new stopNeos());
     m_L1.onTrue(new moveL1());
+    m_L2.onTrue(new moveL2());
+    m_L3.onTrue(new moveL3());
+    m_L4.onTrue(new moveL4());
+    m_Reset.onTrue(new reset());
   }
 
   /**

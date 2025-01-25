@@ -10,7 +10,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.MAXMotionConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -30,6 +29,7 @@ public class Grabber extends SubsystemBase {
   SparkMax max = new SparkMax(4, MotorType.kBrushless);
   SparkMax maxLeader = new SparkMax(11, MotorType.kBrushless);
   SparkMaxConfig config = new SparkMaxConfig();
+  SparkMaxConfig leaderConfig = new SparkMaxConfig();
   MAXMotionConfig maxMotionConfig = new MAXMotionConfig();
   SparkClosedLoopController maxController = max.getClosedLoopController();
   TalonFX turning = new TalonFX(7);
@@ -37,7 +37,7 @@ public class Grabber extends SubsystemBase {
   MotionMagicVoltage motion = new MotionMagicVoltage(0);
   DigitalInput limitswitch = new DigitalInput(0);
 
-  States init = States.NOT_INITIALIZED;
+  States init = States.INITIALIZING;
   
   public Grabber() {
     var slot0config = talonConfig.Slot0;
@@ -47,17 +47,23 @@ public class Grabber extends SubsystemBase {
     slot0config.kI = 0;
     slot0config.kD = 0;
 
-    magicmotionconfig.MotionMagicAcceleration = 30;
-    magicmotionconfig.MotionMagicCruiseVelocity = 30;
+    magicmotionconfig.MotionMagicAcceleration = 10;
+    magicmotionconfig.MotionMagicCruiseVelocity = 10;
 
     turning.getConfigurator().apply(talonConfig);
 
     config
         .follow(11,true)
         .inverted(false)
-        .idleMode(IdleMode.kBrake);
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(20);
+    leaderConfig
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(20);
         
+    // maxLeader.configure(leaderConfig, null, null);
     max.configure(config, null, null);
+
 
    
     // maxLeader.set(.07);

@@ -46,10 +46,10 @@ public class SwerveModules extends SubsystemBase {
     this.drivemotor.getConfigurator().setPosition(0);
 
     this.turnmotor.getConfigurator().apply(Robot.ctreConfigs.swerveAngleFXConfig);
-    this.drivemotor.getConfigurator().setPosition(0);
+    //this.turnmotor.getConfigurator().setPosition(0);
 
     this.cancoder.getConfigurator().apply(Robot.ctreConfigs.swerveCANcoderConfig);
-    this.cancoder.getConfigurator().setPosition(0);
+    //this.cancoder.getConfigurator().setPosition(0);
     resetToAbsolute();
   }
 
@@ -59,6 +59,11 @@ public class SwerveModules extends SubsystemBase {
     return Rotation2d.fromRotations(cancoder.getAbsolutePosition().getValueAsDouble());
   }
 
+  public void setHeadingZero() {
+    cancoder.getConfigurator().setPosition(0);
+    turnmotor.getConfigurator().setPosition(0);
+    //this.drivemotor.getConfigurator().setPosition(0);
+  }
   // removes offset from absolute position (for calibration)
   public void resetToAbsolute() {
     double absolutePosition = getCANcoder().getRotations() - angleOfset.getRotations();
@@ -86,7 +91,7 @@ public class SwerveModules extends SubsystemBase {
 
   // optimize wheel rotation path
   public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
-    //desiredState.optimize(getState().angle);
+    desiredState.optimize(getState().angle);
     desiredstatereturn = desiredState.angle.getRotations();
     turnmotor.setControl(pv.withPosition(desiredState.angle.getRotations()));
     setSpeed(desiredState, isOpenLoop);

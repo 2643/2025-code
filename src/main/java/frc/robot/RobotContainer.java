@@ -40,7 +40,7 @@ public class RobotContainer {
 
 
   public static Joystick driver = new Joystick(0);
-  public  JoystickButton zeroGyro = new JoystickButton(driver, 8);
+  public  JoystickButton zeroGyro = new JoystickButton(driver, 2);
   public static JoystickButton robotCentric = new JoystickButton(driver, 7);
   public static Swerve s_Swerve = new Swerve();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -59,10 +59,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading())
-    
-    
-    );
+    zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
   }
 
   /**

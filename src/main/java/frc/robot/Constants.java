@@ -11,7 +11,6 @@
   import edu.wpi.first.math.geometry.Rotation2d;
   import edu.wpi.first.math.geometry.Translation2d;
   import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-  // import edu.wpi.first.math.trajectory.TrapezoidProfile;
   import edu.wpi.first.math.util.Units;
   import frc.lib.util.COTSTalonFXSwerveConstants;
 
@@ -60,7 +59,8 @@
         public static final int driveMotorID = 8;
         public static final int angleMotorID = 10;
         public static final int canCoderID = 9;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0);
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0)
+        ;
       }
 
       public static final class Mod3 {

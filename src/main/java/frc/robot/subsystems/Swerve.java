@@ -99,6 +99,7 @@ public class Swerve extends SubsystemBase {
 
     for (SwerveModules mod : mSwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.modNumber], isOpenLoop);
+    
     }
   }
 
@@ -113,6 +114,7 @@ public class Swerve extends SubsystemBase {
     }
   }
 
+  
   public ChassisSpeeds getChassisSpeeds() {
     return mSpeeds;
   }
@@ -125,6 +127,7 @@ public class Swerve extends SubsystemBase {
     // move to desired state with optimization
     for (SwerveModules mod : mSwerveMods) {
       mod.setDesiredState(desiredStates[mod.modNumber], true);
+      mod.setHeadingZero();
     }
   }
 
@@ -151,9 +154,12 @@ public class Swerve extends SubsystemBase {
 
   // reset heading to 0 degrees
   public void zeroHeading() {
-    swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(),
-        new Pose2d(getPose().getTranslation(), new Rotation2d()));
+    // swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(),
+    //     new Pose2d(getPose().getTranslation(), new Rotation2d()));
+    for (SwerveModules mod : mSwerveMods) {
+      mod.setHeadingZero();
   }
+}
 
   // returns curent rotation
   public Rotation2d getGyroYaw() {

@@ -5,15 +5,17 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class TeleopSwerve extends Command {
+
+  
 
   private boolean initFlag = true;
   private static DoubleSupplier translationSup;
@@ -26,7 +28,7 @@ public class TeleopSwerve extends Command {
 
     addRequirements(RobotContainer.s_Swerve);
   }
-
+  
   private static double logAxis(double value) {
     return Math.copySign(Math.log(Math.abs(value) + 1) / Math.log(2), value);
   }
@@ -35,6 +37,8 @@ public class TeleopSwerve extends Command {
     value = MathUtil.applyDeadband(value, deadband);
     return Math.copySign(value * value, value);
   }
+  
+
 
   @Override
   public void execute() {
@@ -45,7 +49,7 @@ public class TeleopSwerve extends Command {
 
     if (initFlag) {
       RobotContainer.s_Swerve.resetModulesToAbsolute();
-      RobotContainer.s_Swerve.zeroHeading();
+      //RobotContainer.s_Swerve.zeroHeading();
       initFlag = false;
     }
 

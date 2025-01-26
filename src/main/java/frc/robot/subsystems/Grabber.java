@@ -43,7 +43,7 @@ public class Grabber extends SubsystemBase {
     var slot0config = talonConfig.Slot0;
     var magicmotionconfig = talonConfig.MotionMagic;
 
-    slot0config.kP = 0;
+    slot0config.kP = 10;
     slot0config.kI = 0;
     slot0config.kD = 0;
 
@@ -56,12 +56,12 @@ public class Grabber extends SubsystemBase {
         .follow(11,true)
         .inverted(false)
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(20);
+        .smartCurrentLimit(1);
     leaderConfig
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(20);
+        .smartCurrentLimit(1);
         
-    // maxLeader.configure(leaderConfig, null, null);
+    maxLeader.configure(leaderConfig, null, null);
     max.configure(config, null, null);
 
 

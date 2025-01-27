@@ -78,6 +78,7 @@ public class Robot extends TimedRobot {
     //
     // RobotContainer.s_Swerve.zeroHeading();
     // RobotContainer.s_Swerve.resetModulesToAbsolute();
+    //CommandScheduler.getInstance().schedule(resetModulesToAbsolute);
     CommandScheduler.getInstance().setDefaultCommand(RobotContainer.s_Swerve, new TeleopSwerve());
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel()

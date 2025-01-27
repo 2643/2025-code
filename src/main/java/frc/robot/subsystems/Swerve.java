@@ -154,8 +154,8 @@ public class Swerve extends SubsystemBase {
 
   // reset heading to 0 degrees
   public void zeroHeading() {
-    // swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(),
-    //     new Pose2d(getPose().getTranslation(), new Rotation2d()));
+     swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(),
+         new Pose2d(getPose().getTranslation(), new Rotation2d()));
     for (SwerveModules mod : mSwerveMods) {
       mod.setHeadingZero();
   }

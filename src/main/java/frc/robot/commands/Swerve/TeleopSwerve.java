@@ -45,11 +45,11 @@ public class TeleopSwerve extends Command {
     translationSup = () -> RobotContainer.driver.getRawAxis(1);
     strafeSup = () -> RobotContainer.driver.getRawAxis(0);
     rotationSup = () -> RobotContainer.driver.getRawAxis(4);
-    robotCentricSup = () -> RobotContainer.robotCentric.getAsBoolean();
+    //robotCentricSup = () -> RobotContainer.robotCentric.getAsBoolean();
 
     if (initFlag) {
       RobotContainer.s_Swerve.resetModulesToAbsolute();
-      //RobotContainer.s_Swerve.zeroHeading();
+      RobotContainer.s_Swerve.zeroHeading();
       initFlag = false;
     }
 
@@ -68,7 +68,7 @@ public class TeleopSwerve extends Command {
     RobotContainer.s_Swerve.drive(
         new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed),
         rawRotation,
-        !robotCentricSup.getAsBoolean(),
+        true,
         true);
         
   }

@@ -59,7 +59,8 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+   
+    //zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
   }
 
   /**

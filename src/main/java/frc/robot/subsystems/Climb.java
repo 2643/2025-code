@@ -52,7 +52,7 @@ public class Climb extends SubsystemBase {
     
 
   }
-
+//hi
   public void move_motor(double pos) {
     motor.setControl(new MotionMagicVoltage(pos));
   }

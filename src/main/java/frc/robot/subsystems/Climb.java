@@ -10,8 +10,10 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
@@ -29,7 +31,6 @@ public class Climb extends SubsystemBase {
   TalonFX motor = new TalonFX(13);
   TalonFXConfiguration config = new TalonFXConfiguration();
   public DigitalInput limitswitch1 = new DigitalInput(0);
-  public CurrentLimitsConfigs currentconfig = new CurrentLimitsConfigs();
 
   public Climb() {
 
@@ -39,13 +40,14 @@ public class Climb extends SubsystemBase {
     slot0Configs.kP = 1;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0;
+    //slot0Configs.kG = -1.152;
 
-    config.MotionMagic.MotionMagicAcceleration = 20;
-    config.MotionMagic.MotionMagicCruiseVelocity = 20;
-    currentconfig.StatorCurrentLimit = 3;
+    config.MotionMagic.MotionMagicAcceleration = 2;
+    config.MotionMagic.MotionMagicCruiseVelocity = 2;
+    config.CurrentLimits.SupplyCurrentLimit = 2;
+    
 
     motor.getConfigurator().apply(config);
-    motor.getConfigurator().apply(currentconfig);
     motor.setNeutralMode(NeutralModeValue.Brake);
     
 
@@ -55,6 +57,9 @@ public class Climb extends SubsystemBase {
     motor.setControl(new MotionMagicVoltage(pos));
   }
 
+  public void duty() {
+    motor.setControl(new DutyCycleOut(0.2));
+  }
 
 
 
@@ -83,6 +88,8 @@ public class Climb extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("currentpos", get_pos());
+    SmartDashboard.putBoolean("huai te shih", getLimitSwitch());
     // This method will be called once per scheduler run
     switch (current_state) {
       case NOT_INTIALIZED:

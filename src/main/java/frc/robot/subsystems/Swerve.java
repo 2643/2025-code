@@ -4,7 +4,6 @@ import java.util.Map;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
-import com.ctre.phoenix6.swerve.SwerveModule;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -89,7 +88,7 @@ public class Swerve extends SubsystemBase {
             translation.getX(),
             translation.getY(),
             rotation,
-            getHeading())
+            Rotation2d.fromDegrees(gyro.getYaw().getValueAsDouble()))
             : new ChassisSpeeds(
                 translation.getX(),
                 translation.getY(),
@@ -127,7 +126,6 @@ public class Swerve extends SubsystemBase {
     // move to desired state with optimization
     for (SwerveModules mod : mSwerveMods) {
       mod.setDesiredState(desiredStates[mod.modNumber], true);
-      mod.setHeadingZero();
     }
   }
 
@@ -156,9 +154,11 @@ public class Swerve extends SubsystemBase {
   public void zeroHeading() {
      swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(),
          new Pose2d(getPose().getTranslation(), new Rotation2d()));
-    for (SwerveModules mod : mSwerveMods) {
-      mod.setHeadingZero();
-  }
+  //   for (SwerveModules mod : mSwerveMods) {
+  //     mod.setHeadingZero();
+  // }
+  gyro.setYaw(0);
+    
 }
 
   // returns curent rotation

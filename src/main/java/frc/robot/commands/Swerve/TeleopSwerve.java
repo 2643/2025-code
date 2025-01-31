@@ -39,14 +39,15 @@ public class TeleopSwerve extends Command {
   @Override
   public void initialize() {
     RobotContainer.s_Swerve.resetModulesToAbsolute();
+    
   }
 
   @Override
   public void execute() {
-    translationSup = () -> -RobotContainer.driver.getRawAxis(1);
-    strafeSup = () -> -RobotContainer.driver.getRawAxis(0);
-    rotationSup = () -> RobotContainer.driver.getRawAxis(4);
-    //robotCentricSup = () -> RobotContainer.robotCentric.getAsBoolean();
+    translationSup = () -> RobotContainer.driver.getRawAxis(1);
+    strafeSup = () -> RobotContainer.driver.getRawAxis(0);
+    rotationSup = () -> RobotContainer.driver.getRawAxis(2);
+    //robotCentricSup = () -> RobotContainer.robotCentric.getAsBoolean(); (work on it if u need to)
 
     // if (initFlag) {
     //   RobotContainer.s_Swerve.resetModulesToAbsolute();
@@ -59,8 +60,8 @@ public class TeleopSwerve extends Command {
         * Constants.Swerve.maxAngularVelocity / 4;
     
 
-    double translationVal = squareAxis(logAxis(translationSup.getAsDouble()), Constants.stickDeadband);
-    double strafeVal = squareAxis(logAxis(strafeSup.getAsDouble()), Constants.stickDeadband);
+    double translationVal = squareAxis(logAxis(translationSup.getAsDouble()), Constants.stickDeadband+0.2);
+    double strafeVal = squareAxis(logAxis(strafeSup.getAsDouble()), Constants.stickDeadband+0.2);
     rawrotationEntry.setDouble(rawRotation);
     rotationsupEntry.setDouble(rotationSup.getAsDouble());
     SmartDashboard.putNumber("rawrotation", rawRotation);

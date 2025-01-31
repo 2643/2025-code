@@ -4,9 +4,7 @@ package frc.robot;
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -16,7 +14,6 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.math.Conversions;
 
@@ -50,7 +47,7 @@ public class SwerveModules extends SubsystemBase {
 
     this.cancoder.getConfigurator().apply(Robot.ctreConfigs.swerveCANcoderConfig);
     //this.cancoder.getConfigurator().setPosition(0);
-    resetToAbsolute();
+    //resetToAbsolute();
   }
 
   // returns rotation2d object of the absolute cancoder rotation, of specified
@@ -67,7 +64,7 @@ public class SwerveModules extends SubsystemBase {
   // removes offset from absolute position (for calibration)
   public void resetToAbsolute() {
     double absolutePosition = getCANcoder().getRotations() - angleOfset.getRotations();
-    turnmotor.setPosition(absolutePosition);
+    turnmotor.getConfigurator().setPosition(absolutePosition);
   }
 
   // returns SwerveModulePosition object of the drivemotor position in distance

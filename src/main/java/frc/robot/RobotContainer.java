@@ -40,7 +40,9 @@ public class RobotContainer {
 
 
   public static Joystick driver = new Joystick(0);
-  public  JoystickButton zeroGyro = new JoystickButton(driver, 2);
+  public static JoystickButton action = new JoystickButton(driver, 3);
+  public static JoystickButton processor = new JoystickButton(driver, 6);
+  public static JoystickButton zeroGyro = new JoystickButton(driver, 8);
   public static JoystickButton robotCentric = new JoystickButton(driver, 7);
   public static Swerve s_Swerve = new Swerve();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */

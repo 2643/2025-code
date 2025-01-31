@@ -5,7 +5,6 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,8 +36,10 @@ public class TeleopSwerve extends Command {
     value = MathUtil.applyDeadband(value, deadband);
     return Math.copySign(value * value, value);
   }
-  
-
+  @Override
+  public void initialize() {
+    RobotContainer.s_Swerve.resetModulesToAbsolute();
+  }
 
   @Override
   public void execute() {
@@ -47,11 +48,11 @@ public class TeleopSwerve extends Command {
     rotationSup = () -> RobotContainer.driver.getRawAxis(4);
     //robotCentricSup = () -> RobotContainer.robotCentric.getAsBoolean();
 
-    if (initFlag) {
-      RobotContainer.s_Swerve.resetModulesToAbsolute();
-      RobotContainer.s_Swerve.zeroHeading();
-      initFlag = false;
-    }
+    // if (initFlag) {
+    //   RobotContainer.s_Swerve.resetModulesToAbsolute();
+    //   RobotContainer.s_Swerve.zeroHeading();
+    //   initFlag = false;
+    // }
 
     double rawRotation = rotationSup.getAsDouble();
     rawRotation = squareAxis(logAxis(rawRotation), Constants.stickRotationDeadband)

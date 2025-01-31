@@ -52,7 +52,7 @@
         public static final int driveMotorID = 4;
         public static final int angleMotorID = 6;
         public static final int canCoderID = 5;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0);
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(180);
       }
 
       public static final class Mod2 {
@@ -67,7 +67,7 @@
         public static final int driveMotorID = 11;
         public static final int angleMotorID = 13;
         public static final int canCoderID = 12;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0);
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(180);
       }
 
       public static final double MAX_RADIANS_PER_SECOND = 12.773732;

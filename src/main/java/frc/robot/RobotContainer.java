@@ -4,12 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.Swerve.TeleopSwerve;
-import frc.robot.subsystems.Swerve;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.units.measure.Acceleration;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
@@ -20,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.Swerve;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -40,9 +36,7 @@ public class RobotContainer {
 
 
   public static Joystick driver = new Joystick(0);
-  public static JoystickButton action = new JoystickButton(driver, 3);
-  public static JoystickButton processor = new JoystickButton(driver, 6);
-  public static JoystickButton zeroGyro = new JoystickButton(driver, 8);
+  public  JoystickButton zeroGyro = new JoystickButton(driver, 5);
   public static JoystickButton robotCentric = new JoystickButton(driver, 7);
   public static Swerve s_Swerve = new Swerve();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -61,7 +55,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+   zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
   }
 
   /**

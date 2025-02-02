@@ -1,10 +1,10 @@
-  // Copyright (c) FIRST and other WPILib contributors.
+// Copyright (c) FIRST and other WPILib contributors.
   // Open Source Software; you can modify and/or share it under the terms of
   // the WPILib BSD license file in the root directory of this project.
 
   package frc.robot;
 
-  import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.InvertedValue;
   import com.ctre.phoenix6.signals.NeutralModeValue;
   import com.ctre.phoenix6.signals.SensorDirectionValue;
 
@@ -26,6 +26,7 @@
    * wherever the
    * constants are needed, to reduce verbosity.
    */
+  @SuppressWarnings({"all"})
   public final class Constants {
     public static class OperatorConstants {
       public static final int kDriverControllerPort = 0;
@@ -44,7 +45,7 @@
         public static final int driveMotorID = 1;
         public static final int angleMotorID = 3;
         public static final int canCoderID = 2;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0);
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(90);
 
       }
 
@@ -52,14 +53,14 @@
         public static final int driveMotorID = 4;
         public static final int angleMotorID = 6;
         public static final int canCoderID = 5;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(180);
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0);
       }
 
       public static final class Mod2 {
         public static final int driveMotorID = 8;
         public static final int angleMotorID = 10;
         public static final int canCoderID = 9;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0)
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(1)
         ;
       }
 
@@ -67,7 +68,7 @@
         public static final int driveMotorID = 11;
         public static final int angleMotorID = 13;
         public static final int canCoderID = 12;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(180);
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0);
       }
 
       public static final double MAX_RADIANS_PER_SECOND = 12.773732;

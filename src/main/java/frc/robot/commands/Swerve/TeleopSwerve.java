@@ -38,7 +38,7 @@ public class TeleopSwerve extends Command {
   }
   @Override
   public void initialize() {
-    RobotContainer.s_Swerve.resetModulesToAbsolute();
+    
     
   }
 
@@ -49,11 +49,11 @@ public class TeleopSwerve extends Command {
     rotationSup = () -> RobotContainer.driver.getRawAxis(2);
     //robotCentricSup = () -> RobotContainer.robotCentric.getAsBoolean(); (work on it if u need to)
 
-    // if (initFlag) {
-    //   RobotContainer.s_Swerve.resetModulesToAbsolute();
-    //   RobotContainer.s_Swerve.zeroHeading();
-    //   initFlag = false;
-    // }
+    if (initFlag) {
+      RobotContainer.s_Swerve.resetModulesToAbsolute();
+      // RobotContainer.s_Swerve.zeroHeading();
+      initFlag = false;
+    }
 
     double rawRotation = rotationSup.getAsDouble();
     rawRotation = squareAxis(logAxis(rawRotation), Constants.stickRotationDeadband)

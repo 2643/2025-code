@@ -44,7 +44,7 @@
         public static final int driveMotorID = 1;
         public static final int angleMotorID = 3;
         public static final int canCoderID = 2;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0);
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(90);
 
       }
 
@@ -59,7 +59,7 @@
         public static final int driveMotorID = 8;
         public static final int angleMotorID = 10;
         public static final int canCoderID = 9;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0)
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(1)
         ;
       }
 

@@ -40,34 +40,34 @@
     public static final boolean FIELD_RELATIVE_MODE = true;
 
     public static class Swerve {
-      public static final class Mod0 {
+      public static final class Mod1 {
         public static final int driveMotorID = 1;
         public static final int angleMotorID = 3;
         public static final int canCoderID = 2;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(90);
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-28.47);
 
-      }
-
-      public static final class Mod1 {
-        public static final int driveMotorID = 4;
-        public static final int angleMotorID = 6;
-        public static final int canCoderID = 5;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0);
-      }
-
-      public static final class Mod2 {
-        public static final int driveMotorID = 8;
-        public static final int angleMotorID = 10;
-        public static final int canCoderID = 9;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(1)
-        ;
       }
 
       public static final class Mod3 {
+        public static final int driveMotorID = 4;
+        public static final int angleMotorID = 6;
+        public static final int canCoderID = 5;
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-84.280);
+      }
+
+      public static final class Mod0 {
+        public static final int driveMotorID = 8;
+        public static final int angleMotorID = 10;
+        public static final int canCoderID = 9;
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(107.40)
+        ;
+      }
+
+      public static final class Mod2 {
         public static final int driveMotorID = 11;
         public static final int angleMotorID = 13;
         public static final int canCoderID = 12;
-        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0);
+        public static final Rotation2d angleOffset = Rotation2d.fromDegrees(-3.69);
       }
 
       public static final double MAX_RADIANS_PER_SECOND = 12.773732;

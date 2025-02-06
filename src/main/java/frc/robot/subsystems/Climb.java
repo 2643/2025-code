@@ -72,9 +72,9 @@ public class Climb extends SubsystemBase {
       }
       
     }
-    
+    System.out.println(String.valueOf(pos));
     motor.setControl(new MotionMagicVoltage(pos));
-    }
+  }
 
   public void set_state(states target_state) {
     current_state = target_state;
@@ -90,6 +90,9 @@ public class Climb extends SubsystemBase {
 
   public void set_pos() {
     motor.setPosition(0);
+  }
+  public states getState() {
+    return current_state;
   }
 
   public double get_pos() {

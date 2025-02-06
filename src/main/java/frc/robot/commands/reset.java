@@ -22,14 +22,12 @@ public class reset extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("this ran");
     if (!RobotContainer.m_Climb.getLimitSwitch()) {
-      RobotContainer.m_Climb.current_state = states.NOT_INTIALIZED;
+      RobotContainer.m_Climb.set_state(states.NOT_INTIALIZED);
       RobotContainer.m_Climb.disable_motor();
-      System.out.println("also in here");
+      System.out.println(RobotContainer.m_Climb.getState());
       finish = true;
     }
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,7 +38,7 @@ public class reset extends Command {
       RobotContainer.m_Climb.move_motor(RobotContainer.m_Climb.get_pos() - 0.3);
     } else if (RobotContainer.m_Climb.current_state == states.INTIALIZING) {
       System.out.println("done intializing");
-      RobotContainer.m_Climb.current_state = states.INTIALIZED;
+      RobotContainer.m_Climb.set_state(states.INTIALIZED);
       finish = true;
     }
   }

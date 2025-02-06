@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Climb.states;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class button extends Command {
@@ -29,7 +30,8 @@ public class button extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_Climb.move_motor(RobotContainer.m_Climb.get_pos()+10);
+    if(RobotContainer.m_Climb.current_state == states.CLIMB_ENDED || RobotContainer.m_Climb.current_state == states.INTIALIZED)
+      RobotContainer.m_Climb.current_state = states.BUTTON_CLICKED_ACTIVATE;
   }
 
   // Returns true when the command should end.

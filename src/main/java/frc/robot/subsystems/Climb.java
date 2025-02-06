@@ -14,8 +14,11 @@ import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.reset;
 
 public class Climb extends SubsystemBase {
 
@@ -23,15 +26,18 @@ public class Climb extends SubsystemBase {
   public enum states {
     NOT_INTIALIZED,
     INTIALIZING,
-    INTIALIZED
+    INTIALIZED,
+    BUTTON_CLICKED_ACTIVATE,
+    CLIMB_ENDED
   }
+
 
   public states current_state = states.INTIALIZING;
   /** Creates a new Climb. */
   TalonFX motor = new TalonFX(13);
   TalonFXConfiguration config = new TalonFXConfiguration();
   public DigitalInput limitswitch1 = new DigitalInput(0);
-
+  double targetPos = 0;
   public Climb() {
 
 
@@ -54,14 +60,21 @@ public class Climb extends SubsystemBase {
   }
 //hi
   public void move_motor(double pos) {
+    if (current_state == states.INTIALIZED) {
+      if (get_pos() < Constants.BottomHard || get_pos() > Constants.TopHard) {
+        motor.stopMotor();
+      }
+      else if (get_pos() < Constants.BottomSoft) {
+        targetPos = Constants.BottomHard - 1000;
+      }
+      else if (get_pos() > Constants.TopSoft) {
+       targetPos = Constants.TopHard +1000;
+      }
+      
+    }
+    
     motor.setControl(new MotionMagicVoltage(pos));
-  }
-
-  public void duty() {
-    motor.setControl(new DutyCycleOut(0.2));
-  }
-
-
+    }
 
   public void set_state(states target_state) {
     current_state = target_state;
@@ -83,6 +96,10 @@ public class Climb extends SubsystemBase {
     return motor.getPosition().getValueAsDouble();
   }
 
+  public double get_current() {
+    return motor.getStatorCurrent().getValueAsDouble();
+  }
+
 
 
 
@@ -90,15 +107,28 @@ public class Climb extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("currentpos", get_pos());
     SmartDashboard.putBoolean("huai te shih", getLimitSwitch());
+    SmartDashboard.putNumber("outputcurrent", get_current());
+    SmartDashboard.putString("state", current_state.toString());
+    SmartDashboard.putNumber("target Pos", targetPos);
     // This method will be called once per scheduler run
     switch (current_state) {
       case NOT_INTIALIZED:
-        
         break;
-    
       case INTIALIZING:
-        
+        CommandScheduler.getInstance().schedule(new reset());
       case INTIALIZED:
+        break;
+      case BUTTON_CLICKED_ACTIVATE:
+        move_motor(Constants.MoveToCage);
+        targetPos = Constants.MoveToCage;
+        if(get_current() >= Constants.CageCurrent){
+          motor.stopMotor();
+        }
+        current_state = states.CLIMB_ENDED;
+      case CLIMB_ENDED:
+        break;
+      default: 
+
 
     }
   }

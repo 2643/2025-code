@@ -46,8 +46,8 @@ public class SwerveModules extends SubsystemBase {
     this.turnmotor.getConfigurator().setPosition(0);
 
     this.cancoder.getConfigurator().apply(Robot.ctreConfigs.swerveCANcoderConfig);
-    this.cancoder.getConfigurator().setPosition(0+angleOfset.getRotations());
-    //resetToAbsolute();
+    //this.cancoder.getConfigurator().setPosition(0);
+    resetToAbsolute();
   }
 
 
@@ -62,11 +62,12 @@ public class SwerveModules extends SubsystemBase {
     turnmotor.getConfigurator().setPosition(0);
     //this.drivemotor.getConfigurator().setPosition(0);
   }
+
   // removes offset from absolute position (for calibration)
   public void resetToAbsolute() {
-    double absolutePosition = getCANcoder().getRotations() - angleOfset.getRotations();
+    double absolutePosition = getCANcoder().getRotations()-angleOfset.getRotations();
     turnmotor.getConfigurator().setPosition(absolutePosition);
-    turnmotor.setControl(pv.withPosition(0));
+
     
     
   }

@@ -22,7 +22,7 @@ public class reset extends Command {
   public void initialize() {
     if (!RobotContainer.m_Grabber.getLimitSwitch()){
       System.out.println("Disable");
-      // RobotContainer.m_Grabber.disableMotor();
+      RobotContainer.m_Grabber.disableMotor();
       RobotContainer.m_Grabber.setState(States.NOT_INITIALIZED);
       finish = true;
     }

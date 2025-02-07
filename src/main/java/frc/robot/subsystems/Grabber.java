@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
@@ -16,14 +17,17 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class Grabber extends SubsystemBase {
   /** Creates a new Grabber. */
 
   public enum States {
-    NOT_INITIALIZED,
+    INITIALIZED,
     INITIALIZING,
-    INITIALIZED
+    NOT_INITIALIZED,
+    ENCODER
   }
 
   SparkMax max = new SparkMax(4, MotorType.kBrushless);
@@ -37,20 +41,21 @@ public class Grabber extends SubsystemBase {
   MotionMagicVoltage motion = new MotionMagicVoltage(0);
   DigitalInput limitswitch = new DigitalInput(0);
 
-  States init = States.INITIALIZING;
+  States curStates = States.INITIALIZING;
   
   public Grabber() {
     var slot0config = talonConfig.Slot0;
     var magicmotionconfig = talonConfig.MotionMagic;
 
-    slot0config.kP = 10;
+    slot0config.kP = 1;
     slot0config.kI = 0;
     slot0config.kD = 0;
 
-    magicmotionconfig.MotionMagicAcceleration = 10;
-    magicmotionconfig.MotionMagicCruiseVelocity = 10;
+    magicmotionconfig.MotionMagicAcceleration = 2;
+    magicmotionconfig.MotionMagicCruiseVelocity = 2;
 
     turning.getConfigurator().apply(talonConfig);
+    turning.setNeutralMode(NeutralModeValue.Brake);
 
     config
         .follow(11,true)
@@ -74,7 +79,7 @@ public class Grabber extends SubsystemBase {
   }
 
   public States getState(){
-    return init;
+    return curStates;
   }
 
   public void setPos(double pos){
@@ -86,6 +91,19 @@ public class Grabber extends SubsystemBase {
   }
 
   public void moveTurningMotor(double pos){
+    if (curStates != States.INITIALIZED){
+      return;
+    }
+    if (getPos() < Constants.BottomHard || getPos() > Constants.TopHard) {
+      turning.stopMotor();
+      pos = 0;
+    }
+    else if (getPos() < Constants.BottomSoft) {
+      pos = Constants.BottomHard - 1000;
+    }
+    else if (getPos() > Constants.TopSoft) {
+     pos = Constants.TopHard + 1000;
+    }
     turning.setControl(motion.withPosition(pos));
   }
   public boolean getLimitSwitch(){
@@ -101,12 +119,54 @@ public class Grabber extends SubsystemBase {
   }
 
   public void setState(States state){
-    init = state;
+    curStates = state;
+  }
+
+  public void moveL(double axis){
+    if (curStates != States.ENCODER){
+      return;
+    }
+    if (axis <= -0.75 && axis >= -1) {
+      moveTurningMotor(5);
+    } else if (axis <= 0 && axis >= -0.75) {
+      moveTurningMotor(10);
+    } else if (axis <= 0.75 && axis >= 1) {
+      moveTurningMotor(15);
+    } else {
+      moveTurningMotor(20);
+    }
+  }
+  public void moveFG(boolean feeder){
+    if(curStates != States.ENCODER){
+      return;
+    }
+    if (feeder){
+      //move feeder
+      moveTurningMotor(25);
+    } else {
+      //move floor
+      moveTurningMotor(0);
+    }
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
+    
+    switch (curStates) {
+      case NOT_INITIALIZED:
+        break;
+      case INITIALIZING:
+        break;
+      case INITIALIZED:
+        setState(States.ENCODER); 
+      case ENCODER:
+      if (RobotContainer.m_ReefSwitch.getAsBoolean()){
+        moveL(RobotContainer.m_Joystick.getRawAxis(0));
+      } else {
+        moveFG(RobotContainer.m_FeederGround.getAsBoolean());
+      }
+      break;
+    }
   }
 }

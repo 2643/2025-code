@@ -33,7 +33,7 @@ public class button extends Command {
     if(RobotContainer.m_Climb.current_state == states.CLIMB_ENDED || RobotContainer.m_Climb.current_state == states.INTIALIZED)
       RobotContainer.m_Climb.current_state = states.BUTTON_CLICKED_ACTIVATE;
   }
-
+//
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

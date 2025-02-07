@@ -14,12 +14,12 @@ package frc.robot;
  */
 public final class Constants {
 
-  public static int CageCurrent = 20;
-  public static int MoveToCage = 10;
-  public static int BottomSoft = -15;
-  public static int BottomHard = -30;
-  public static int TopSoft = 15;
-  public static int TopHard = 30;
+  public static double CageCurrent = 20;
+  public static double MoveToCage = 10;
+  public static double BottomSoft = -15;
+  public static double BottomHard = -30;
+  public static double TopSoft = 15;
+  public static double TopHard = 30;
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }

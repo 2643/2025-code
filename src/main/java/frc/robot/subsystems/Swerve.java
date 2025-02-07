@@ -14,7 +14,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -36,10 +35,12 @@ public class Swerve extends SubsystemBase {
   Field2d field = new Field2d();
   ComplexWidget fieldShuffleboard = Shuffleboard.getTab("Field").add("2025-Field", field)
       .withWidget(BuiltInWidgets.kField).withProperties(Map.of("robot icon size", 20));
-  GenericEntry swerveAngleEntry = Shuffleboard.getTab("Swerve").add("Swerve Angle", 0).getEntry();
-  GenericEntry encoderAngleEntry = Shuffleboard.getTab("Swerve").add("Encoder Angle", 0).getEntry();
 
-  
+  // ShuffleboardTab joystickTab = Shuffleboard.getTab("Joystick");
+  // public GenericEntry pEntry = joystickTab.add("P Gain", 0.08).getEntry();
+  // public GenericEntry iEntry = joystickTab.add("I Gain", 0.00).getEntry();
+  // public GenericEntry dEntry = joystickTab.add("D Gain", 0.005).getEntry();
+
   public Swerve() {
 
     gyro = new Pigeon2(Constants.Swerve.pigeonID);
@@ -98,7 +99,7 @@ public class Swerve extends SubsystemBase {
 
     for (SwerveModules mod : mSwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.modNumber], isOpenLoop);
-    
+
     }
   }
 
@@ -113,7 +114,6 @@ public class Swerve extends SubsystemBase {
     }
   }
 
-  
   public ChassisSpeeds getChassisSpeeds() {
     return mSpeeds;
   }
@@ -152,14 +152,14 @@ public class Swerve extends SubsystemBase {
 
   // reset heading to 0 degrees
   public void zeroHeading() {
-     swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(),
-         new Pose2d(getPose().getTranslation(), new Rotation2d()));
-  //   for (SwerveModules mod : mSwerveMods) {
-  //     mod.setHeadingZero();
-  // }
-  gyro.setYaw(90);
-    
-}
+    swerveOdometry.resetPosition(getGyroYaw(), getModulePositions(),
+        new Pose2d(getPose().getTranslation(), new Rotation2d()));
+    // for (SwerveModules mod : mSwerveMods) {
+    // mod.setHeadingZero();
+    // }
+    gyro.setYaw(90);
+
+  }
 
   // returns curent rotation
   public Rotation2d getGyroYaw() {
@@ -187,5 +187,6 @@ public class Swerve extends SubsystemBase {
       SmartDashboard.putNumber("Mod " + mod.modNumber + " Velocity", mod.getState().speedMetersPerSecond);
 
     }
+
   }
 }

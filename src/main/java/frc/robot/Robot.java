@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
     if (RobotContainer.m_Climb.current_state == states.INTIALIZING){
-      
+      CommandScheduler.getInstance().schedule(new reset());
     }
 
     if (m_autonomousCommand != null) {

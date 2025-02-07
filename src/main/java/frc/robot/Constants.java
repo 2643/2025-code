@@ -16,10 +16,10 @@ public final class Constants {
 
   public static int CageCurrent = 20;
   public static int MoveToCage = 10;
-  public static int BottomSoft = -100;
-  public static int BottomHard = -200;
-  public static int TopSoft = 100;
-  public static int TopHard = 200;
+  public static int BottomSoft = -15;
+  public static int BottomHard = -30;
+  public static int TopSoft = 15;
+  public static int TopHard = 30;
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }

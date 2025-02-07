@@ -65,10 +65,10 @@ public class Climb extends SubsystemBase {
         motor.stopMotor();
       }
       else if (get_pos() < Constants.BottomSoft) {
-        targetPos = Constants.BottomHard - 1000;
+        targetPos = Constants.BottomSoft - 10;
       }
       else if (get_pos() > Constants.TopSoft) {
-       targetPos = Constants.TopHard +1000;
+       targetPos = Constants.TopSoft +10;
       }
       
     }
@@ -118,7 +118,7 @@ public class Climb extends SubsystemBase {
       case NOT_INTIALIZED:
         break;
       case INTIALIZING:
-        CommandScheduler.getInstance().schedule(new reset());
+        break;
       case INTIALIZED:
         break;
       case BUTTON_CLICKED_ACTIVATE:

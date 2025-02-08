@@ -6,10 +6,12 @@ package frc.robot;
 
 // import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
+import frc.robot.commands.down;
 import frc.robot.commands.intake;
 import frc.robot.commands.outtake;
 import frc.robot.commands.reset;
 import frc.robot.commands.stopNeos;
+import frc.robot.commands.up;
 import frc.robot.subsystems.Grabber;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
@@ -31,13 +33,11 @@ public class RobotContainer {
   public static final Joystick m_Joystick = new Joystick(0);
   public static final JoystickButton m_IntakeButton = new JoystickButton(m_Joystick, 1);
   public static final JoystickButton m_OuttakeButton = new JoystickButton(m_Joystick, 2);
-  public static final JoystickButton m_L1 = new JoystickButton(m_Joystick, 3);
-  public static final JoystickButton m_L2 = new JoystickButton(m_Joystick, 4);
-  public static final JoystickButton m_L3 = new JoystickButton(m_Joystick, 5);
-  public static final JoystickButton m_L4 = new JoystickButton(m_Joystick, 6);
   public static final JoystickButton m_Reset = new JoystickButton(m_Joystick, 7);
-  public static final JoystickButton m_ReefSwitch = new JoystickButton(m_Joystick, 8);
-  public static final JoystickButton m_FeederGround = new JoystickButton(m_Joystick, 9);
+  public static final JoystickButton wristUp = new JoystickButton(m_Joystick, 8);
+  public static final JoystickButton wristDown = new JoystickButton(m_Joystick, 9);
+  public static final JoystickButton m_ReefSwitch = new JoystickButton(m_Joystick, 15);
+  public static final JoystickButton m_FeederGround = new JoystickButton(m_Joystick, 6);
   // Replace with CommandPS4Controller or CommandJoystick if needed
 
 
@@ -61,6 +61,8 @@ public class RobotContainer {
     m_OuttakeButton.onTrue(new outtake());
     m_IntakeButton.onFalse(new stopNeos());
     m_OuttakeButton.onFalse(new stopNeos());
+    wristDown.onTrue(new down());
+    wristUp.onTrue(new up());
     m_Reset.onTrue(new reset());
   }
 

@@ -16,9 +16,17 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
-  public static final int BottomHard = 10;
-  public static final int TopHard = 30;
-  public static final int BottomSoft = 12;
-  public static final int TopSoft = 28;
+  public static final int BottomHard = -100;
+  public static final int TopHard = 100;
+  public static final int BottomSoft = -30;
+  public static final int TopSoft = 20;
   
+  public static final double L1L2L3 = 1;
+  public static final double L4 = 2;
+  public static final double GROUND = 3;
+  public static final double FEEDER = 4;
+  public static final double BARGE = 5;
+  public static final double REST = 0;
+
+  public static final double GRABBERGEARRATIO = 1;
 }

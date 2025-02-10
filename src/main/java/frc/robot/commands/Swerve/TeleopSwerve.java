@@ -21,6 +21,8 @@ public class TeleopSwerve extends Command {
   private static DoubleSupplier rotationSup;
   static double rawRotation;
   static double rotationval;
+  static double strafeVal;
+  static double translationVal;
 
   // static BooleanSupplier robotCentricSup;
   static double encoderkP = 0.38;
@@ -62,7 +64,6 @@ public class TeleopSwerve extends Command {
 
   }
 
-
   @Override
   public void initialize() {
 
@@ -92,16 +93,23 @@ public class TeleopSwerve extends Command {
       rawRotation = rotationSup.getAsDouble();
     }
 
-    double translationVal = squareAxis(logAxis(translationSup.getAsDouble()), Constants.stickDeadband + 0.3);
-    double strafeVal = squareAxis(logAxis(strafeSup.getAsDouble()), Constants.stickDeadband + 0.3);
-
-    if (!RobotContainer.encoderJoymode.getAsBoolean()) {
-      rotationval = rotPid.calculate(RobotContainer.s_Swerve.getGyroYaw().getDegrees(), rawRotation) / 14
-          * Constants.Swerve.maxAngularVelocity / 4;
-    } else if (RobotContainer.encoderJoymode.getAsBoolean()) {
-      rotationval = squareAxis(logAxis(rawRotation), Constants.stickRotationDeadband)
-          * Constants.Swerve.maxAngularVelocity / 4;
+    translationVal = squareAxis(logAxis(translationSup.getAsDouble()), Constants.stickDeadband + 0.3);
+    if (RobotContainer.opboard.isConnected() && RobotContainer.autoAim.getAsBoolean()
+        && RobotContainer.s_Vision.isApriltag()) {
+      strafeVal = RobotContainer.s_Vision.autostrafe();
+      rotationval = RobotContainer.s_Vision.autoAngle()*Constants.Swerve.maxAngularVelocity;
+      
+    } else {
+      strafeVal = squareAxis(logAxis(strafeSup.getAsDouble()), Constants.stickDeadband + 0.3);
+      if (!RobotContainer.encoderJoymode.getAsBoolean()) {
+        rotationval = rotPid.calculate(RobotContainer.s_Swerve.getGyroYaw().getDegrees(), rawRotation) / 14
+            * Constants.Swerve.maxAngularVelocity / 4;
+      } else if (RobotContainer.encoderJoymode.getAsBoolean()) {
+        rotationval = squareAxis(logAxis(rawRotation), Constants.stickRotationDeadband)
+             * Constants.Swerve.maxAngularVelocity / 4;
+      }
     }
+    
 
     /*
      * if (RobotContainer.encoderJoymode.getAsBoolean() &&
@@ -139,11 +147,8 @@ public class TeleopSwerve extends Command {
     SmartDashboard.putNumber("rotationVal", rotationval);
     RobotContainer.s_Swerve.targetrotValueEntry.setDouble(rotationval);
 
-    RobotContainer.s_Swerve.drive(
-        new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed),
-        rotationval,
-        true,
-        true);
+    RobotContainer.s_Swerve.drive(new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed),
+        rotationval, true, true);
 
   }
 

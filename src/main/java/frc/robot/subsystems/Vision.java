@@ -17,62 +17,125 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
+  double[] botPoseBlueTable;
+  double targetX;
+  double targetY;
+  double targetZ;
   double x;
   double y;
+
   double autoP = 0.05;
   double autoI = 0.005;
   double autoD = 0;
-  double[] botPoseBlueTable;
+  static double rz;
   final double maxPos = -0.205;
   final double minPos = -0.15;
   final double maxDis = -4;
   final double minDis = 21;
+
   double armPercent;
   double offset = Units.degreesToRadians(98);
+  double trig;
+  double yDisShooterSpeaker = Units.inchesToMeters(66.5);
 
-  double yDisReefL1 = Units.inchesToMeters(66.5);
-  double yDisReefL2 = Units.inchesToMeters(66.5);
-  double yDisReefL3 = Units.inchesToMeters(66.5);
-  double yDisReefL4 = Units.inchesToMeters(66.5);
-
+  // GenericEntry autoPEntry = Shuffleboard.getTab("autoPID").add("P", 0).getEntry();
+  // GenericEntry autoIEntry = Shuffleboard.getTab("autoPID").add("I", 0).getEntry();
+  // GenericEntry autoDEntry = Shuffleboard.getTab("autoPID").add("D", 0).getEntry();
   GenericEntry angleOffset = Shuffleboard.getTab("autoPID").add("angle", 100).getEntry();
   GenericEntry errorEntry = Shuffleboard.getTab("autoPID").add("Error", 0).getEntry();
   GenericEntry aprilEntry = Shuffleboard.getTab("autoPID").add("Apriltag", false).getEntry();
 
+  //GenericEntry turnEntry = Shuffleboard.getTab("autoPID").add("Turn", 0).getEntry();
   LinearFilter autoAimFilter = LinearFilter.movingAverage(10);
   MedianFilter outlierFilter = new MedianFilter(7);
 
-  PIDController autoAnglePID = new PIDController(0.01, 0, 0);
+
+
+  PIDController autoAnglePID = new PIDController(0.006, 0, 0.000);
   PIDController angularLockPID = new PIDController(0.05, 0.0005, 0.04);
 
+  GenericEntry autoanglep = Shuffleboard.getTab("autoPID").add("kp",0.006).getEntry();
+  GenericEntry autoanglei = Shuffleboard.getTab("autoPID").add("ki",0.0).getEntry();
+  GenericEntry autoangled = Shuffleboard.getTab("autoPID").add("kd",0.000).getEntry();
   /** Creates a new Vision. */
-
   public Vision() {
-
   }
 
   @Override
   public void periodic() {
+    //offset = Units.degreesToRadians(angleOffset.getDouble(100));
+    autoAnglePID.setP(autoanglep.getDouble(0.006));
+    autoAnglePID.setI(autoanglei.getDouble(0.0));
+    autoAnglePID.setD(autoangled.getDouble(0.000));
+
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-smokey");
-    NetworkTableEntry botPoseBlue = table.getEntry("botpose_wpiblue");
+    NetworkTableEntry targetpose_cameraspace = table.getEntry("targetpose_cameraspace");
+    double[] targetpose_cameraspaceArray =targetpose_cameraspace.getDoubleArray(new double[5]);
+    rz = targetpose_cameraspaceArray[4];
+    SmartDashboard.putNumber("rz", rz);
+    
+
+
+    // autoAnglePID.setP(autoPEntry.getDouble(0));
+    // autoAnglePID.setI(autoIEntry.getDouble(0));
+    // autoAnglePID.setD(autoDEntry.getDouble(0));
 
     NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry ty = table.getEntry("ty");
-    NetworkTableEntry ta = table.getEntry("ta");
+
+    // NetworkTableEntry ta = table.getEntry("ta");
+
+    //read values periodically
     x = tx.getDouble(0.0);
     y = ty.getDouble(0.0);
-    double area = ta.getDouble(0.0);
+    //double area = ta.getDouble(0.0);
 
-    SmartDashboard.putNumber("LimelightX", x);
-    SmartDashboard.putNumber("LimelightY", y);
-    SmartDashboard.putNumber("LimelightArea", area);
+   
 
-    botPoseBlueTable = botPoseBlue.getDoubleArray(new double[11]);
+//post to smart dashboard periodically
+    // SmartDashboard.putNumber("LimelightX", x);
+    // SmartDashboard.putNumber("LimelightY", y);
+    // SmartDashboard.putNumber("LimelightArea", area);
 
     errorEntry.setDouble(x);
     aprilEntry.setBoolean(isApriltag());
-
     // This method will be called once per scheduler run
+  }
+
+  
+
+  // needs to be readjusted
+
+  public double autostrafe() {
+    targetX = x;
+    
+      //turnEntry.setDouble(autoAnglePID.calculate(targetX) - 0.1);
+    return -autoAnglePID.calculate(targetX);
+    
+    // else
+    //   //turnEntry.setDouble(autoAnglePID.calculate(targetX + 2));
+    //   return autoAnglePID.calculate(targetX + 0.2);
+    
+  }
+  public double autoAngle() {
+    targetZ = rz;
+    return autoAnglePID.calculate(targetZ);
+    
+    }
+
+    public double autotrans() {
+      targetY = y;
+      return autoAnglePID.calculate(targetY);
+    }
+    // else
+    //   //turnEntry.setDouble(autoAnglePID.calculate(targetX + 2));
+    //   return autoAnglePID.calculate(targetX + 0.2);
+    
+  
+
+  public double getTagPose() {
+    System.out.println(angularLockPID.calculate(botPoseBlueTable[5]));
+    return angularLockPID.calculate(botPoseBlueTable[5]);
   }
 
   public boolean isApriltag() {
@@ -82,8 +145,7 @@ public class Vision extends SubsystemBase {
       return true;
   }
 
-  public void autoAngle() {
-
+  public double getError() {
+    return targetX;
   }
-
 }

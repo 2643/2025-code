@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Vision;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -37,7 +38,7 @@ public class RobotContainer {
       .withPosition(0, 2);
 
   public static Swerve s_Swerve = new Swerve();
-  // public static Vision s_Vision = new Vision();
+  public static Vision s_Vision = new Vision();
 
   public static Joystick driver = new Joystick(0);
   public JoystickButton zeroGyro = new JoystickButton(driver, 5);
@@ -45,8 +46,8 @@ public class RobotContainer {
 
   public static Joystick opboard = new Joystick(1);
   public static JoystickButton encoderJoymode = new JoystickButton(opboard, 15);
-  // public static JoystickButton autoAim = new JoystickButton(opboard, 2);
-
+  public static JoystickButton autoAim = new JoystickButton(opboard, 13);
+  // public static JoystickButton leftreefSwitch = new JoystickButton(opboard, 0);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */

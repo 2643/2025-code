@@ -47,7 +47,8 @@ public class RobotContainer {
   public static Joystick opboard = new Joystick(1);
   public static JoystickButton encoderJoymode = new JoystickButton(opboard, 15);
   public static JoystickButton autoAim = new JoystickButton(opboard, 13);
-  // public static JoystickButton leftreefSwitch = new JoystickButton(opboard, 0);
+  public static JoystickButton centerorLeftRight = new JoystickButton(opboard, 12);
+  public static JoystickButton LeftRight = new JoystickButton(opboard, 14);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */

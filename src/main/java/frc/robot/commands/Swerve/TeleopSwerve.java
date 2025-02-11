@@ -6,6 +6,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -29,7 +30,8 @@ public class TeleopSwerve extends Command {
   static double encoderkI = 0.025;
   static double encoderkD = 0.002;
   static double ff = 0.09;
-
+  
+  Timer timer = new Timer();
   TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(10000, 1000);
   ProfiledPIDController rotPid = new ProfiledPIDController(encoderkP, encoderkI, encoderkD, constraints);
 
@@ -84,7 +86,7 @@ public class TeleopSwerve extends Command {
 
     if (initFlag) {
       RobotContainer.s_Swerve.resetModulesToAbsolute();
-      // RobotContainer.s_Swerve.zeroHeading();
+      RobotContainer.s_Swerve.zeroHeading();
       initFlag = false;
     }
     if (!RobotContainer.encoderJoymode.getAsBoolean()) {
@@ -93,17 +95,19 @@ public class TeleopSwerve extends Command {
       rawRotation = rotationSup.getAsDouble();
     }
 
-    translationVal = squareAxis(logAxis(translationSup.getAsDouble()), Constants.stickDeadband + 0.3);
+    // translationVal = squareAxis(logAxis(translationSup.getAsDouble()), Constants.stickDeadband + 0.3);
     if (RobotContainer.opboard.isConnected() && RobotContainer.autoAim.getAsBoolean()
         && RobotContainer.s_Vision.isApriltag()) {
-      strafeVal = RobotContainer.s_Vision.autostrafe();
-      rotationval = RobotContainer.s_Vision.autoAngle()*Constants.Swerve.maxAngularVelocity;
+      strafeVal = RobotContainer.s_Vision.autostrafe()*Constants.Swerve.maxAngularVelocity/2;
+      rotationval = RobotContainer.s_Vision.autoAngle()* Constants.Swerve.maxAngularVelocity;
+      translationVal = RobotContainer.s_Vision.autotrans()*Constants.Swerve.maxAngularVelocity/2;
       
     } else {
+      translationVal = squareAxis(logAxis(translationSup.getAsDouble()), Constants.stickDeadband + 0.3);
       strafeVal = squareAxis(logAxis(strafeSup.getAsDouble()), Constants.stickDeadband + 0.3);
       if (!RobotContainer.encoderJoymode.getAsBoolean()) {
         rotationval = rotPid.calculate(RobotContainer.s_Swerve.getGyroYaw().getDegrees(), rawRotation) / 14
-            * Constants.Swerve.maxAngularVelocity / 4;
+            * Constants.Swerve.maxAngularVelocity / 3;
       } else if (RobotContainer.encoderJoymode.getAsBoolean()) {
         rotationval = squareAxis(logAxis(rawRotation), Constants.stickRotationDeadband)
              * Constants.Swerve.maxAngularVelocity / 4;

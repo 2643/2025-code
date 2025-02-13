@@ -140,4 +140,10 @@ import com.ctre.phoenix6.signals.InvertedValue;
       public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Coast;
       public static final NeutralModeValue driveNeutralMode = NeutralModeValue.Brake;
     }
+    public static class Vision {
+      public static final double distancefromground = 9.25;
+      public static final double groundtoapril = 6.8;
+    }
+
+    
   }

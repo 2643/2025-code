@@ -23,9 +23,11 @@ public class Vision extends SubsystemBase {
   double targetX;
   double targetY;
   double targetZ;
+  double ta;
+  double area;
   double x;
   double y;
-
+  double targetarea;
   double autoP = 0.05;
   double autoI = 0.005;
   double autoD = 0;
@@ -39,6 +41,7 @@ public class Vision extends SubsystemBase {
   double offset = Units.degreesToRadians(98);
   double trig;
   double yDisShooterSpeaker = Units.inchesToMeters(66.5);
+
 
   // GenericEntry autoPEntry = Shuffleboard.getTab("autoPID").add("P",
   // 0).getEntry();
@@ -58,7 +61,7 @@ public class Vision extends SubsystemBase {
   PIDController autoAnglePID = new PIDController(0.0035, 0, 0.000001);
   PIDController angularLockPID = new PIDController(0.05, 0.0005, 0.04);
 
-  GenericEntry autoanglep = Shuffleboard.getTab("autoPID").add("kp", 0.0035).getEntry();
+  GenericEntry autoanglep = Shuffleboard.getTab("autoPID").add("kp", 0.0015).getEntry();
   GenericEntry autoanglei = Shuffleboard.getTab("autoPID").add("ki", 0.0).getEntry();
   GenericEntry autoangled = Shuffleboard.getTab("autoPID").add("kd", 0.000001).getEntry();
 
@@ -69,14 +72,17 @@ public class Vision extends SubsystemBase {
   @Override
   public void periodic() {
     // offset = Units.degreesToRadians(angleOffset.getDouble(100));
-    autoAnglePID.setP(autoanglep.getDouble(0.0035));
+    autoAnglePID.setP(autoanglep.getDouble(0.0015));
     autoAnglePID.setI(autoanglei.getDouble(0.0));
     autoAnglePID.setD(autoangled.getDouble(0.000001));
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-smokey");
     NetworkTableEntry targetpose_cameraspace = table.getEntry("targetpose_cameraspace");
     double[] targetpose_cameraspaceArray = targetpose_cameraspace.getDoubleArray(new double[5]);
+    
+   
     rz = roundAvoid(targetpose_cameraspaceArray[4], 2);
+
     SmartDashboard.putNumber("rz", rz);
 
     // autoAnglePID.setP(autoPEntry.getDouble(0));
@@ -86,12 +92,15 @@ public class Vision extends SubsystemBase {
     NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry ty = table.getEntry("ty");
 
-    // NetworkTableEntry ta = table.getEntry("ta");
+    NetworkTableEntry ta = table.getEntry("ta");
 
     // read values periodically
-    x = tx.getDouble(0.0);
-    y = ty.getDouble(0.0);
+    x =  tx.getDouble(0);
+    y =  ty.getDouble(0);
+    area = ta.getDouble(0);
     SmartDashboard.putNumber("X", x);
+    SmartDashboard.putNumber("Y", y);
+    SmartDashboard.putNumber("area", area);
     // double area = ta.getDouble(0.0);
 
     // post to smart dashboard periodically
@@ -116,24 +125,24 @@ public class Vision extends SubsystemBase {
     if (!RobotContainer.centerorLeftRight.getAsBoolean()) {
       if (RobotContainer.LeftRight.getAsBoolean()) {
         if (checker) {
-          targetX = x + 20;
+          targetX = x + 26;
         }
         else {
-          targetX = x + 10;
+          targetX = x + 16;
         }
         checker = true;
       } else {
         if (checker) {
-          targetX = x - 20;
+          targetX = x - 21;
         }
         else {
-          targetX = x - 10;
+          targetX = x - 11;
         }
         checker = true;
       }
     } 
     else {
-      targetX = x;
+      targetX = x+6;
       checker = false;
     }
     
@@ -149,14 +158,14 @@ public class Vision extends SubsystemBase {
   public double autoAngle() {
     targetZ = rz;
     if (targetZ < 1 && targetZ > -1)
-      return 0;
+      targetZ = 0;
     return autoAnglePID.calculate(targetZ);
 
   }
 
   public double autotrans() {
-    targetY = y;
-    return -autoAnglePID.calculate(targetY);
+    targetarea= area;
+    return -autoAnglePID.calculate(targetarea,5.39);
   }
   // else
   // //turnEntry.setDouble(autoAnglePID.calculate(targetX + 2));

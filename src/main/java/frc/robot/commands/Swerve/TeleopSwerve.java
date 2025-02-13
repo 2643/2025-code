@@ -79,7 +79,7 @@ public class TeleopSwerve extends Command {
       rotationSupX = () -> RobotContainer.driver.getRawAxis(2);
       rotationSupY = () -> RobotContainer.driver.getRawAxis(5);
     } else {
-      rotationSup = () -> RobotContainer.driver.getRawAxis(2);
+      rotationSup = () -> -RobotContainer.driver.getRawAxis(2);
     }
     // robotCentricSup = () -> RobotContainer.robotCentric.getAsBoolean(); (work on
     // it if u need to)
@@ -98,9 +98,9 @@ public class TeleopSwerve extends Command {
     // translationVal = squareAxis(logAxis(translationSup.getAsDouble()), Constants.stickDeadband + 0.3);
     if (RobotContainer.opboard.isConnected() && RobotContainer.autoAim.getAsBoolean()
         && RobotContainer.s_Vision.isApriltag()) {
-      strafeVal = RobotContainer.s_Vision.autostrafe()*Constants.Swerve.maxAngularVelocity/2;
+      strafeVal = RobotContainer.s_Vision.autostrafe()*Constants.Swerve.maxAngularVelocity;
       rotationval = RobotContainer.s_Vision.autoAngle()* Constants.Swerve.maxAngularVelocity;
-      translationVal = RobotContainer.s_Vision.autotrans()*Constants.Swerve.maxAngularVelocity/2;
+      translationVal = RobotContainer.s_Vision.autotrans()*Constants.Swerve.maxAngularVelocity;
       
     } else {
       translationVal = squareAxis(logAxis(translationSup.getAsDouble()), Constants.stickDeadband + 0.3);

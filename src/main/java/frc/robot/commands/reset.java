@@ -38,7 +38,7 @@ public class reset extends Command {
       RobotContainer.m_Grabber.setState(States.INITIALIZED);
       finish = true;
     } else {
-      RobotContainer.m_Grabber.moveTurningMotor(RobotContainer.m_Grabber.getPos() - 0.3);
+      RobotContainer.m_Grabber.moveTurningMotor(RobotContainer.m_Grabber.getPos() - 0.003);
     }
   }
 

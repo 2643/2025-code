@@ -4,9 +4,11 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -56,21 +58,23 @@ public class Grabber extends SubsystemBase {
 
   static double auxFF = 0;
   static double grabberAngle;
+  static double targetPos;
   
   public Grabber() {
     var slot0config = talonConfig.Slot0;
     var magicmotionconfig = talonConfig.MotionMagic;
+    var MotorOutputConfigs = talonConfig.MotorOutput;
+    MotorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
 
-     
-
-    slot0config.kP = 3;
+    slot0config.kP = 23;
     slot0config.kI = 0;
     slot0config.kD = 0;
 
-    magicmotionconfig.MotionMagicAcceleration = 2;
-    magicmotionconfig.MotionMagicCruiseVelocity = 2;
+    magicmotionconfig.MotionMagicAcceleration = 15;
+    magicmotionconfig.MotionMagicCruiseVelocity = 15;
 
     turning.getConfigurator().apply(talonConfig);
+
     turning.setNeutralMode(NeutralModeValue.Coast);
 
     config
@@ -122,7 +126,8 @@ public class Grabber extends SubsystemBase {
       pos = Constants.TopSoft - 1;
       }
   }
-  turning.setControl(motion.withPosition(pos * Constants.GRABBERGEARRATIO));
+  targetPos = -pos;
+  turning.setControl(motion.withPosition(pos * Constants.GRABBERGEARRATIO).withFeedForward(auxFF));
 }
   public boolean getLimitSwitch(){
     return limitswitch.get();
@@ -177,14 +182,15 @@ public class Grabber extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     
-    // grabberAngle = 0 + ((getPos()*360/Constants.GRABBERGEARRATIO) - (RobotContainer.m_Grabber.getPos()*360/Constants.GRABBERGEARRATIO)); //try removing gear ratios
-    // auxFF = /*FFWEntry.getDouble(-0.15)*/ -0.35 * Math.sin(Math.toRadians(grabberAngle)); //-0.128 
-    auxFF = 0.35 * Math.sin(Math.toRadians((getPos()-25)));
-    turning.setControl(motion.withFeedForward(auxFF));
+    grabberAngle = 0 + ((getPos()*360/Constants.GRABBERGEARRATIO)); //try removing gear ratios
+    auxFF = /*FFWEntry.getDouble(-0.15)*/ -0.35 * Math.sin(Math.toRadians(grabberAngle)); //-0.128 
+    // auxFF = 0.35 * Math.sin(Math.toRadians((getPos()-25)));
     SmartDashboard.putNumber("no", auxFF);
-    SmartDashboard.putNumber("eruthr", getPos());
+    SmartDashboard.putNumber("targetPos", targetPos);
+    SmartDashboard.putNumber("currentPos", getPos());
     SmartDashboard.putNumber("angel", Math.sin(Math.toRadians((getPos()))));
     SmartDashboard.putBoolean("limit", getLimitSwitch());
+    SmartDashboard.putString("state", curStates.toString());
     switch (curStates) {
       case NOT_INITIALIZED:
         break;

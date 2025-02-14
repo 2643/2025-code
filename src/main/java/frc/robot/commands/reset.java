@@ -26,6 +26,7 @@ public class reset extends Command {
       RobotContainer.m_Grabber.setState(States.NOT_INITIALIZED);
       finish = true;
     }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,13 +38,17 @@ public class reset extends Command {
       RobotContainer.m_Grabber.setState(States.INITIALIZED);
       finish = true;
     } else {
-      RobotContainer.m_Grabber.moveTurningMotor(RobotContainer.m_Grabber.getPos() + 0.3);
+      RobotContainer.m_Grabber.moveTurningMotor(RobotContainer.m_Grabber.getPos() - 0.3);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    // RobotContainer.m_Grabber.setPos(0);
+    // RobotContainer.m_Grabber.moveTurningMotor(0);
+    // RobotContainer.m_Grabber.setState(States.INITIALIZED);
+  }
 
   // Returns true when the command should end.
   @Override

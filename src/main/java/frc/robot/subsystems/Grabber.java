@@ -16,6 +16,7 @@ import com.revrobotics.spark.config.MAXMotionConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -52,12 +53,17 @@ public class Grabber extends SubsystemBase {
 
   States curStates = States.INITIALIZING;
   GrabberPlacement curPlacement = GrabberPlacement.REST;
+
+  static double auxFF = 0;
+  static double grabberAngle;
   
   public Grabber() {
     var slot0config = talonConfig.Slot0;
     var magicmotionconfig = talonConfig.MotionMagic;
 
-    slot0config.kP = 1;
+     
+
+    slot0config.kP = 3;
     slot0config.kI = 0;
     slot0config.kD = 0;
 
@@ -65,7 +71,7 @@ public class Grabber extends SubsystemBase {
     magicmotionconfig.MotionMagicCruiseVelocity = 2;
 
     turning.getConfigurator().apply(talonConfig);
-    turning.setNeutralMode(NeutralModeValue.Brake);
+    turning.setNeutralMode(NeutralModeValue.Coast);
 
     config
         .follow(11,true)
@@ -171,6 +177,14 @@ public class Grabber extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     
+    // grabberAngle = 0 + ((getPos()*360/Constants.GRABBERGEARRATIO) - (RobotContainer.m_Grabber.getPos()*360/Constants.GRABBERGEARRATIO)); //try removing gear ratios
+    // auxFF = /*FFWEntry.getDouble(-0.15)*/ -0.35 * Math.sin(Math.toRadians(grabberAngle)); //-0.128 
+    auxFF = 0.35 * Math.sin(Math.toRadians((getPos()-25)));
+    turning.setControl(motion.withFeedForward(auxFF));
+    SmartDashboard.putNumber("no", auxFF);
+    SmartDashboard.putNumber("eruthr", getPos());
+    SmartDashboard.putNumber("angel", Math.sin(Math.toRadians((getPos()))));
+    SmartDashboard.putBoolean("limit", getLimitSwitch());
     switch (curStates) {
       case NOT_INITIALIZED:
         break;
@@ -180,12 +194,12 @@ public class Grabber extends SubsystemBase {
         setState(States.ENCODER); 
       case ENCODER:
       System.out.println("ENCODER");
-      if (RobotContainer.m_ReefSwitch.getAsBoolean()){
-        System.out.println(RobotContainer.m_Joystick.getRawAxis(2));
-        moveL(RobotContainer.m_Joystick.getRawAxis(2));
-      } else {
-        moveFG(RobotContainer.m_FeederGround.getAsBoolean());
-      }
+      // if (RobotContainer.m_ReefSwitch.getAsBoolean()){
+      //   System.out.println(RobotContainer.m_Joystick.getRawAxis(2));
+      //   moveL(RobotContainer.m_Joystick.getRawAxis(2));
+      // } else {
+      //   moveFG(RobotContainer.m_FeederGround.getAsBoolean());
+      // }
       break;
     }
   }

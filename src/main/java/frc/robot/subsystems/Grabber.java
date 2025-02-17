@@ -15,11 +15,14 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.MAXMotionConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.outtake;
 
 public class Grabber extends SubsystemBase {
   /** Creates a new Grabber. */
@@ -39,8 +42,14 @@ public class Grabber extends SubsystemBase {
     BARGE,
     PROCESSOR
   }
+  public enum IntakeOuttake {
+    INTAKE,
+    OUTTAKE
+  }
 
-  SparkMax max = new SparkMax(4, MotorType.kBrushless);
+  double target;
+
+  SparkMax max = new SparkMax(3, MotorType.kBrushless);
   SparkMax maxLeader = new SparkMax(11, MotorType.kBrushless);
   SparkMaxConfig config = new SparkMaxConfig();
   SparkMaxConfig leaderConfig = new SparkMaxConfig();
@@ -53,6 +62,9 @@ public class Grabber extends SubsystemBase {
 
   States curStates = States.INITIALIZING;
   GrabberPlacement curPlacement = GrabberPlacement.REST;
+  IntakeOuttake intakeOuttake = IntakeOuttake.INTAKE;
+
+  GenericEntry targetPos = Shuffleboard.getTab("pos").add("target", 0).getEntry();
 
   static double auxFF = 0;
   static double grabberAngle;
@@ -60,27 +72,30 @@ public class Grabber extends SubsystemBase {
   public Grabber() {
     var slot0config = talonConfig.Slot0;
     var magicmotionconfig = talonConfig.MotionMagic;
+    turning.setInverted(true);
 
      
 
-    slot0config.kP = 3;
+    slot0config.kP = 23;
     slot0config.kI = 0;
     slot0config.kD = 0;
+    
 
-    magicmotionconfig.MotionMagicAcceleration = 2;
-    magicmotionconfig.MotionMagicCruiseVelocity = 2;
+    magicmotionconfig.MotionMagicAcceleration = 15;
+    magicmotionconfig.MotionMagicCruiseVelocity = 15;
 
     turning.getConfigurator().apply(talonConfig);
-    turning.setNeutralMode(NeutralModeValue.Coast);
+    turning.setNeutralMode(NeutralModeValue.Brake);
+    
 
     config
         .follow(11,true)
         .inverted(false)
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(1);
+        .smartCurrentLimit(15);
     leaderConfig
         .idleMode(IdleMode.kBrake)
-        .smartCurrentLimit(1);
+       .smartCurrentLimit(15);
         
     maxLeader.configure(leaderConfig, null, null);
     max.configure(config, null, null);
@@ -88,10 +103,19 @@ public class Grabber extends SubsystemBase {
 
    
     // maxLeader.set(.07);
+    SmartDashboard.putNumber("target", 0);
   }
 
   public double getOutputCurrent(){
     return maxLeader.getOutputCurrent();
+  }
+
+  public IntakeOuttake getIntakeOuttake(){
+    return intakeOuttake;
+  }
+
+  public void setIntakeOutake(IntakeOuttake state){
+    intakeOuttake = state;
   }
 
   public States getState(){
@@ -122,6 +146,7 @@ public class Grabber extends SubsystemBase {
       pos = Constants.TopSoft - 1;
       }
   }
+  targetPos.setDouble(pos);
   turning.setControl(motion.withPosition(pos * Constants.GRABBERGEARRATIO));
 }
   public boolean getLimitSwitch(){
@@ -133,7 +158,7 @@ public class Grabber extends SubsystemBase {
     max.disable();
   }
   public double getPos(){
-    return turning.getPosition().getValueAsDouble();
+    return turning.getPosition().getValueAsDouble() / Constants.GRABBERGEARRATIO;
   }
   public GrabberPlacement getPlacement(){
     return curPlacement;
@@ -185,6 +210,9 @@ public class Grabber extends SubsystemBase {
     SmartDashboard.putNumber("eruthr", getPos());
     SmartDashboard.putNumber("angel", Math.sin(Math.toRadians((getPos()))));
     SmartDashboard.putBoolean("limit", getLimitSwitch());
+    
+    
+
     switch (curStates) {
       case NOT_INITIALIZED:
         break;
@@ -193,13 +221,29 @@ public class Grabber extends SubsystemBase {
       case INITIALIZED:
         setState(States.ENCODER); 
       case ENCODER:
-      System.out.println("ENCODER");
+        System.out.println(getOutputCurrent());
+        
+      moveTurningMotor(targetPos.getDouble(0));
       // if (RobotContainer.m_ReefSwitch.getAsBoolean()){
       //   System.out.println(RobotContainer.m_Joystick.getRawAxis(2));
       //   moveL(RobotContainer.m_Joystick.getRawAxis(2));
       // } else {
       //   moveFG(RobotContainer.m_FeederGround.getAsBoolean());
       // }
+        if (getOutputCurrent() >= Constants.CURRENTLIMIT){
+            //maxLeader.stopMotor();
+            switch (intakeOuttake) {
+              case INTAKE:
+                maxLeader.set(-0.3);
+                break;
+            
+              case OUTTAKE:
+                //maxLeader.set(0.2);
+                break;
+            }
+          
+
+        }
       break;
     }
   }

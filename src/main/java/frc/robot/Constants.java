@@ -21,7 +21,7 @@ public final class Constants {
   public static final int BottomSoft = -3000;
   public static final int TopSoft = 2000;
   
-  public static final double L1L2L3 = 1;
+  public static final double L1L2L3 = -0.238701171875;
   public static final double L4 = 2;
   public static final double GROUND = 3;
   public static final double FEEDER = 4;
@@ -29,4 +29,6 @@ public final class Constants {
   public static final double REST = 0;
 
   public static final double GRABBERGEARRATIO = 100;
+  
+  public static final double CURRENTLIMIT = 11;
 }

@@ -32,8 +32,7 @@ public class RobotContainer {
   public static final Grabber m_Grabber = new Grabber();
   public static final Joystick m_Joystick = new Joystick(0);
   public static final JoystickButton m_IntakeButton = new JoystickButton(m_Joystick, 1);
-  public static final JoystickButton m_OuttakeButton = new JoystickButton(m_Joystick, 2);
-  public static final JoystickButton m_Reset = new JoystickButton(m_Joystick, 7);
+  public static final JoystickButton m_OuttakeButton = new JoystickButton(m_Joystick, 12);
   public static final JoystickButton wristUp = new JoystickButton(m_Joystick, 8);
   public static final JoystickButton wristDown = new JoystickButton(m_Joystick, 9);
   public static final JoystickButton m_ReefSwitch = new JoystickButton(m_Joystick, 15);
@@ -63,7 +62,6 @@ public class RobotContainer {
     m_OuttakeButton.onFalse(new stopNeos());
     wristDown.onTrue(new down());
     wristUp.onTrue(new up());
-    m_Reset.onTrue(new reset());
   }
 
   /**

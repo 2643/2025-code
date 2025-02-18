@@ -95,6 +95,7 @@ public class elevator extends SubsystemBase {
     motor.setControl(new MotionMagicVoltage(currentPos));
   }
 
+  //
   public void setPosition(double position) {
     motor.setPosition(position);
   }
@@ -154,23 +155,24 @@ public class elevator extends SubsystemBase {
       case INITIALIZING:
         break;
       case INITIALIZED:
-        // currentPosEntry.setDouble(getPosition());
-        // if (RobotContainer.encoderGroundSwitch.getAsBoolean()) {
-        // if (RobotContainer.feederGroundSwitch.getAsBoolean()) {
-        // CommandScheduler.getInstance().schedule(new feeder());
-        // } else {
-        // CommandScheduler.getInstance().schedule(new ground());
-        // }
-        // } else {
-        // moveWithEncoder(RobotContainer.driver.getRawAxis(2));
-        // SmartDashboard.putString("Level", currentLevel.toString());
-        // if (isCurrentPos != getLevel()) {
-        // isCurrentPos = getLevel();
-        // CommandScheduler.getInstance().schedule(new moveElevator(isCurrentPos));
-        // }
-        // }
+        currentPosEntry.setDouble(getPosition());
+        if (RobotContainer.encoderGroundSwitch.getAsBoolean()) {
+          if (RobotContainer.feederGroundSwitch.getAsBoolean()) {
+            CommandScheduler.getInstance().schedule(new feeder());
+          } else {
+            CommandScheduler.getInstance().schedule(new ground());
+          }
+        } else {
+          moveWithEncoder(RobotContainer.driver.getRawAxis(2));
+          SmartDashboard.putString("Level", currentLevel.toString());
+          if (isCurrentPos != getLevel()) {
+            isCurrentPos = getLevel();
+            CommandScheduler.getInstance().schedule(new moveElevator(isCurrentPos));
+          }
+        }
       default:
     }
+    //
     // This method will be called once per scheduler run
     // moveWithEncoder(RobotContainer.driver.getRawAxis(0));
   }

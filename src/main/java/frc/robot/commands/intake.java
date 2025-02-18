@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Grabber.IntakeOuttake;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class intake extends Command {
@@ -29,7 +30,8 @@ public class intake extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_Grabber.moveNeos(-0.07);
+    RobotContainer.m_Grabber.setIntakeOutake(IntakeOuttake.INTAKE);
+    
   }
 
   // Returns true when the command should end.

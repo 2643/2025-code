@@ -32,8 +32,7 @@ public class up extends Command {
   @Override
   public void end(boolean interrupted) {
     SmartDashboard.putBoolean("key", true);
-    RobotContainer.m_Grabber.moveTurningMotor(RobotContainer.m_Grabber.getPos() + 0.003);
-    System.out.println("here");
+    RobotContainer.m_Grabber.moveTurningMotor(RobotContainer.m_Grabber.getPos() + 0.03);
   }
 
   // Returns true when the command should end.

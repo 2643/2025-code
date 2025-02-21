@@ -33,7 +33,11 @@ public class moveGrabber extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (place == GrabberPlacement.L1L2L3){
+    if (place == GrabberPlacement.L1){
+      RobotContainer.m_Grabber.moveTurningMotor(Constants.L1L2L3);
+    } else if (place == GrabberPlacement.L2){
+      RobotContainer.m_Grabber.moveTurningMotor(Constants.L1L2L3);
+    } else if (place == GrabberPlacement.L3){
       RobotContainer.m_Grabber.moveTurningMotor(Constants.L1L2L3);
     } else if (place == GrabberPlacement.L4){
       RobotContainer.m_Grabber.moveTurningMotor(Constants.L4);
@@ -45,6 +49,12 @@ public class moveGrabber extends Command {
       RobotContainer.m_Grabber.moveTurningMotor(Constants.BARGE);
     } else if (place == GrabberPlacement.REST){
       RobotContainer.m_Grabber.moveTurningMotor(Constants.REST);
+    } else if (place == GrabberPlacement.LOWALGAE){
+      RobotContainer.m_Grabber.moveTurningMotor(Constants.LOWALGAE);
+    } else if (place == GrabberPlacement.HIGHALGAE){
+      RobotContainer.m_Grabber.moveTurningMotor(Constants.HIGHALGAE);
+    } else if (place == GrabberPlacement.RAMP){
+      RobotContainer.m_Grabber.moveTurningMotor(Constants.RAMP);
     }
   }
 

@@ -27,8 +27,13 @@ public final class Constants {
   public static final double FEEDER = -0.4;
   public static final double BARGE = -0.5;
   public static final double REST = 0;
+  public static final double LOWALGAE = 0;
+  public static final double HIGHALGAE = 0;
+  public static final double RAMP = 0;
+  
 
   public static final double GRABBERGEARRATIO = 100;
   
   public static final double CURRENTLIMIT = 12;
+
 }

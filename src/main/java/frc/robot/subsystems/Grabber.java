@@ -34,13 +34,18 @@ public class Grabber extends SubsystemBase {
   }
 
   public enum GrabberPlacement {
-    L1L2L3,
+    L1,
+    L2,
+    L3,
     L4,
     GROUND,
     FEEDER,
     REST,
     BARGE,
-    PROCESSOR
+    PROCESSOR,
+    HIGHALGAE,
+    LOWALGAE,
+    RAMP
   }
 
   public enum IntakeOuttake {
@@ -190,7 +195,7 @@ public class Grabber extends SubsystemBase {
     if (axis <= -0.95 && axis >= -0.98) {
       setPlacement(GrabberPlacement.GROUND);
     } else if (axis <= -0.06 && axis >= -0.1) {
-      setPlacement(GrabberPlacement.L1L2L3);
+      setPlacement(GrabberPlacement.L1);
     } else if (axis <= -0.53 && axis >= -0.56) {
       setPlacement(GrabberPlacement.REST);
     } else if (axis <= -0.27 && axis >= -0.29) {
@@ -214,7 +219,6 @@ public class Grabber extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
     grabberAngle = 0 + ((getPos() * 360 / Constants.GRABBERGEARRATIO)); // try removing gear ratios
     auxFF = /* FFWEntry.getDouble(-0.15) */ -0.35 * Math.sin(Math.toRadians(grabberAngle)); // -0.128
     // auxFF = 0.35 * Math.sin(Math.toRadians((getPos()-25)));
@@ -232,12 +236,12 @@ public class Grabber extends SubsystemBase {
       case INITIALIZED:
         setState(States.ENCODER);
       case ENCODER:
-        if (RobotContainer.m_ReefSwitch.getAsBoolean()) {
-          System.out.println(RobotContainer.m_Joystick.getRawAxis(2));
-          moveL(RobotContainer.m_Joystick.getRawAxis(2));
-        } else {
-          moveFG(RobotContainer.m_FeederGround.getAsBoolean());
-        }
+        // if (RobotContainer.m_ReefSwitch.getAsBoolean()) {
+        //   System.out.println(RobotContainer.m_Joystick.getRawAxis(2));
+        //   moveL(RobotContainer.m_Joystick.getRawAxis(2));
+        // } else {
+        //   moveFG(RobotContainer.m_FeederGround.getAsBoolean());
+        // }
 
         switch (intakeOuttake) {
           case NOTHING:

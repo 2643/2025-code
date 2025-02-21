@@ -6,6 +6,9 @@ package frc.robot;
 
 // import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
+import frc.robot.commands.MovePos;
+import frc.robot.commands.NextPos;
+import frc.robot.commands.PreviousPos;
 import frc.robot.commands.down;
 import frc.robot.commands.intake;
 import frc.robot.commands.outtake;
@@ -13,6 +16,7 @@ import frc.robot.commands.reset;
 import frc.robot.commands.stopNeos;
 import frc.robot.commands.up;
 import frc.robot.subsystems.Grabber;
+import frc.robot.subsystems.Grabber.GrabberPlacement;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -31,12 +35,21 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static final Grabber m_Grabber = new Grabber();
   public static final Joystick m_Joystick = new Joystick(0);
-  public static final JoystickButton m_IntakeButton = new JoystickButton(m_Joystick, 1);
+  public static final JoystickButton m_IntakeButton = new JoystickButton(m_Joystick, 10);
   public static final JoystickButton m_OuttakeButton = new JoystickButton(m_Joystick, 12);
   public static final JoystickButton wristUp = new JoystickButton(m_Joystick, 8);
   public static final JoystickButton wristDown = new JoystickButton(m_Joystick, 9);
-  public static final JoystickButton m_ReefSwitch = new JoystickButton(m_Joystick, 15);
-  public static final JoystickButton m_FeederGround = new JoystickButton(m_Joystick, 6);
+  // public static final JoystickButton m_ReefSwitch = new JoystickButton(m_Joystick, 15);
+  // public static final JoystickButton m_FeederGround = new JoystickButton(m_Joystick, 6);
+  public static final JoystickButton Next = new JoystickButton(m_Joystick, 1);
+  public static final JoystickButton Previous = new JoystickButton(m_Joystick,2);
+  public static final JoystickButton HighAlgae = new JoystickButton(m_Joystick,3);
+  public static final JoystickButton LowAlgae = new JoystickButton(m_Joystick,4);
+  public static final JoystickButton Barge = new JoystickButton(m_Joystick,5);
+  public static final JoystickButton Processor = new JoystickButton(m_Joystick,6);
+  public static final JoystickButton Ramp = new JoystickButton(m_Joystick,7);
+  public static final JoystickButton Feeder = new JoystickButton(m_Joystick,8);
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
 
 
@@ -62,6 +75,14 @@ public class RobotContainer {
     m_OuttakeButton.onFalse(new stopNeos());
     wristDown.onTrue(new down());
     wristUp.onTrue(new up());
+    Next.onTrue(new NextPos());
+    Previous.onTrue(new PreviousPos());
+    LowAlgae.onTrue(new MovePos(GrabberPlacement.LOWALGAE));
+    HighAlgae.onTrue(new MovePos(GrabberPlacement.HIGHALGAE));
+    Barge.onTrue(new MovePos(GrabberPlacement.BARGE));
+    Processor.onTrue(new MovePos(GrabberPlacement.PROCESSOR));
+    Ramp.onTrue(new MovePos(GrabberPlacement.RAMP));
+    Feeder.onTrue(new MovePos(GrabberPlacement.FEEDER));
   }
 
   /**

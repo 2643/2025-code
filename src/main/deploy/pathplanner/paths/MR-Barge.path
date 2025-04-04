@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.029815573770492,
-        "y": 1.273821721311475
+        "x": 7.111527317880794,
+        "y": 4.019006147540983
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.16847216944692,
-        "y": 1.6767084444682145
+        "x": 7.597795666584609,
+        "y": 4.243268362977226
       },
       "isLocked": false,
-      "linkedName": "BR-Back"
+      "linkedName": "MR back"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 6.152817622950819
       },
       "prevControl": {
-        "x": 7.011873867712556,
-        "y": 5.295688063220889
+        "x": 5.495717330693502,
+        "y": 4.9209834680985045
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 119.99999999999999
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

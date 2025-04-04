@@ -113,8 +113,21 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     // autoChooser.setDefaultOption("SPEAKER Routine", new SpeakerRoutine());
-    autoChooser.addOption("TR L2 Barge", new PathPlannerAuto("TR L2 Barge"));
-    autoChooser.addOption("BR L2 Barge", new PathPlannerAuto("BR L2 Barge"));
+    autoChooser.addOption("S1-TR-Barge-L2", new PathPlannerAuto("S1-TR-Barge-L2"));
+    autoChooser.addOption("S1-TR-Barge-L3", new PathPlannerAuto("S1-TR-Barge-L3"));
+    autoChooser.addOption("S2-BR-Barge-L2", new PathPlannerAuto("S2-BR-Barge-L2"));
+    autoChooser.addOption("S2-BR-Barge-L3", new PathPlannerAuto("S2-BR-Barge-L3"));
+    autoChooser.addOption("S2-MR-Barge-L2", new PathPlannerAuto("S2-MR-Barge-L2"));
+    autoChooser.addOption("S2-MR-Barge-L3", new PathPlannerAuto("S2-MR-Barge-L3"));
+    autoChooser.addOption("S3-BR-Processor-L2", new PathPlannerAuto("S3-BR-Processor-L2"));
+    autoChooser.addOption("S3-BR-Processor-L2-BL-Processor-L3", new PathPlannerAuto("S3-BR-Processor-L2-BL-Processor-L3"));
+    autoChooser.addOption("S3-BR-Processor-L3", new PathPlannerAuto("S3-BR-Processor-L3"));
+    autoChooser.addOption("S3-BR-Processor-L3-BL-Processor-L2", new PathPlannerAuto("S3-BR-Processor-L3-BL-Processor-L2"));
+    autoChooser.addOption("S1-Forward", new PathPlannerAuto("S1-Forward"));
+    autoChooser.addOption("S2-Forward", new PathPlannerAuto("S2-Forward"));
+    autoChooser.addOption("S3-Forward", new PathPlannerAuto("S3-Forward"));
+
+
 
     autoChooser.addOption("S1-Forward", new PathPlannerAuto("S1-Forward"));
     autoChooser.addOption("S2-Forward", new PathPlannerAuto("S2-Forward"));

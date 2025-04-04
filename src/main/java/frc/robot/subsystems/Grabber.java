@@ -100,7 +100,7 @@ public class Grabber extends SubsystemBase {
 
     grab.setNeutralMode(NeutralModeValue.Brake);
 
-    talonGrabConfig.CurrentLimits.StatorCurrentLimit = 40;
+    talonGrabConfig.CurrentLimits.StatorCurrentLimit = 60;
     talonGrabConfig.CurrentLimits.StatorCurrentLimitEnable = true;
 
     grab.getConfigurator().apply(talonGrabConfig);

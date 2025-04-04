@@ -83,7 +83,7 @@ public final class Constants {
     // public static final double BOTTOM_SOFT_LIMIT = -0.4 ;
 
     public static final double LEVEL_4 = 0.3949;
-    public static final double GROUND_POSITION = 0.17181;
+    public static final double GROUND_POSITION = 0.17181-5*0.006;
     public static final double FEEDER_POSITION = 0.6492056;
     public static final double BARGE_POSITION = 0.71209;
     public static final double REST_POSITION = 0.0;

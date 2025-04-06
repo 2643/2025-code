@@ -99,9 +99,9 @@ public class SwerveTeleop extends Command {
 
       strafeVal = -RobotContainer.s_Vision.autostrafe();
       rotationval = -RobotContainer.s_Vision.autoAngle()
-          * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND / 3;
+          * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND /1.5;
       translationVal = -RobotContainer.s_Vision.autotrans()
-          * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND / 3;
+          * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
       fieldRelative = false;
 
     } else {

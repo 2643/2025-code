@@ -54,8 +54,8 @@ public class Climb extends SubsystemBase {
 
     config.MotionMagic.MotionMagicAcceleration = 15;
     config.MotionMagic.MotionMagicCruiseVelocity = 15;
-    config.CurrentLimits.SupplyCurrentLimit = 17; //THIS IS WAY TOO LOW, CHANGE THIS TO BE BETTER!!
-    config.CurrentLimits.SupplyCurrentLimitEnable = true;
+    config.CurrentLimits.StatorCurrentLimit = 50; //THIS IS WAY TOO LOW, CHANGE THIS TO BE BETTER!!
+    config.CurrentLimits.StatorCurrentLimitEnable = true;
     
 
     motor.getConfigurator().apply(config);

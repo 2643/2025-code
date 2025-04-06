@@ -33,7 +33,7 @@ public final class Constants {
   public final class ClimbConstants {
     public static final int MOTOR_PORT = 0; // CHANGE THIS TO BE CORRECT!!
     public static final int LIMITSWITCH_PORT = 0;
-    public static final double GEAR_RATIO = 385.7;
+    public static final double GEAR_RATIO = 350;
 
     public static final double BOTTOM_SOFT_LIMIT = -15;
     public static final double BOTTOM_HARD_LIMIT = -30;
@@ -41,7 +41,7 @@ public final class Constants {
     public static final double TOP_HARD_LIMIT = 33;
 
     public static final double CURRENT_LIMIT = 30;
-    public static final double MOVE_TO_CAGE_POSITION = -0.4;
+    public static final double MOVE_TO_CAGE_POSITION = -0.335;
   }
 
   public final class ElevatorConstants {

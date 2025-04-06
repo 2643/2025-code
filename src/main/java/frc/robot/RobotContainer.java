@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.Climb.ClimbMove;
 import frc.robot.commands.Elevator.ElevatorManualMoveDown;
 import frc.robot.commands.Elevator.ElevatorManualMoveUp;
 import frc.robot.commands.Elevator.ElevatorReset;
@@ -28,6 +29,7 @@ import frc.robot.commands.ParallelCommands.ElevatorAndGrabberScram;
 import frc.robot.commands.ParallelCommands.ElevatorandGrabberBumperUp;
 import frc.robot.commands.ParallelCommands.ResetAll;
 import frc.robot.commands.Swerve.SwerveAutoAlignAuto;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Elevator.stateLevel;
 import frc.robot.subsystems.Grabber;
@@ -38,7 +40,7 @@ import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  // public static Climb s_Climb = new Climb();
+  public static Climb s_Climb = new Climb();
   public static Elevator s_Elevator = new Elevator();
   public static Grabber s_Grabber = new Grabber();
   public static Swerve s_Swerve = new Swerve();
@@ -71,7 +73,7 @@ public class RobotContainer {
   public static JoystickButton Previous = new JoystickButton(operatorJoystick, 8);//Next is Right Bumper (R1)
   public static JoystickButton Feeder = new JoystickButton(operatorJoystick, 3);//Coral Feeder intake is circle
   public static JoystickButton Ground = new JoystickButton(operatorJoystick, 2);//Ground Algae intake is triangle
-  // public static JoystickButton moveClimb = new JoystickButton(operatorJoystick, 10);
+  public static JoystickButton moveClimb = new JoystickButton(operatorJoystick, 100); //CHANGE THIS PORT!!!
 
   public static JoystickButton Processor = new JoystickButton(operatorJoystick, 1); ///Proccessor is square
   public static JoystickButton Scram = new JoystickButton(operatorJoystick, 5); //Scram is Left Bumper (L1)
@@ -143,6 +145,8 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    moveClimb.onTrue(new ClimbMove());
+    
     m_IntakeButton.onTrue(new GrabberIntake());
     m_IntakeButton.onFalse(new InstantCommand(() -> s_Grabber.setIntakeOutake(IntakeOuttake.NOTHING)));
     m_OuttakeButton.onTrue(new GrabberOutake());

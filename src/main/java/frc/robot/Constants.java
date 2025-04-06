@@ -31,7 +31,7 @@ public final class Constants {
   @SuppressWarnings({ "all" })
 
   public final class ClimbConstants {
-    // public static final int MOTOR_PORT = 0;
+    public static final int MOTOR_PORT = 0; // CHANGE THIS TO BE CORRECT!!
     public static final int LIMITSWITCH_PORT = 0;
     public static final double GEAR_RATIO = 385.7;
 

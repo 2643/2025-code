@@ -131,7 +131,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    System.out.println("here");
+    System.out.println("jegnergnergnkjergnkerngkerngnrgkjnekjgnerngenrgkreng");
     RobotContainer.s_Swerve.resetModulesToAbsolute();
     curPlaceGrab = RobotContainer.s_Grabber.getPlacement();
     curPlaceElevator = RobotContainer.s_Elevator.getLevel();

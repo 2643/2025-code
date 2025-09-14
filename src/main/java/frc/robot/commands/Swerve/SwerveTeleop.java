@@ -97,17 +97,17 @@ public class SwerveTeleop extends Command {
 
     if (RobotContainer.s_Vision.getAutoAim() != autoAim.NONE && RobotContainer.s_Vision.isApriltag() /*&& RobotContainer.s_Swerve.autoaimstate*/) {
 
-      strafeVal = -RobotContainer.s_Vision.autostrafe();
+      strafeVal = -RobotContainer.s_Vision.autostrafe()/4;
       rotationval = -RobotContainer.s_Vision.autoAngle()
-          * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND /1.5;
+          * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND /1.5/4;
       translationVal = -RobotContainer.s_Vision.autotrans()
-          * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
+          * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND/4;
       fieldRelative = false;
 
     } else {
-      translationVal = -squareAxis(logAxis(translationSup.getAsDouble()), Constants.SwerveConstants.STICK_DEADBAND);
-      strafeVal = -squareAxis(logAxis(strafeSup.getAsDouble()), Constants.SwerveConstants.STICK_DEADBAND) / 1.2;
-      rotationval = -squareAxis(logAxis(rawRotation), Constants.SwerveConstants.STICK_ROTATION_DEADBAND) * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
+      translationVal = -squareAxis(logAxis(translationSup.getAsDouble()), Constants.SwerveConstants.STICK_DEADBAND) /2;
+      strafeVal = -squareAxis(logAxis(strafeSup.getAsDouble()), Constants.SwerveConstants.STICK_DEADBAND) / 1.2 /2;
+      rotationval = -squareAxis(logAxis(rawRotation), Constants.SwerveConstants.STICK_ROTATION_DEADBAND) * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND /2;
       fieldRelative = true;
     }
 

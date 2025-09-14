@@ -70,13 +70,13 @@ public class RobotContainer {
   // public static JoystickButton ElevatorDown = new JoystickButton(operatorJoystick, 9); // Elevator Down Slightly is share
 
   public static JoystickButton Next = new JoystickButton(operatorJoystick, 6);//Previous is Left Bumper
-  public static JoystickButton Previous = new JoystickButton(operatorJoystick, 8);//Next is Right Bumper (R1)
-  public static JoystickButton Feeder = new JoystickButton(operatorJoystick, 3);//Coral Feeder intake is circle
-  public static JoystickButton Ground = new JoystickButton(operatorJoystick, 2);//Ground Algae intake is triangle
+  public static JoystickButton Previous = new JoystickButton(operatorJoystick, 5);//Next is Right Bumper (R1)
+  public static JoystickButton Feeder = new JoystickButton(operatorJoystick, 2);//Coral Feeder intake is circle
+  public static JoystickButton Ground = new JoystickButton(operatorJoystick, 1);//Ground Algae intake is triangle
   // public static JoystickButton moveClimb = new JoystickButton(operatorJoystick, 10); //CHANGE THIS PORT!!!
 
-  public static JoystickButton Processor = new JoystickButton(operatorJoystick, 1); ///Proccessor is square
-  public static JoystickButton Scram = new JoystickButton(operatorJoystick, 5); //Scram is Left Bumper (L1)
+  public static JoystickButton Processor = new JoystickButton(operatorJoystick, 0); ///Proccessor is square
+  public static JoystickButton Scram = new JoystickButton(operatorJoystick, 3); //Scram is Left Bumper (L1)
   public static JoystickButton Barge = new JoystickButton(operatorJoystick, 4); //Barge  is x
 
   // Replace with CommandPS4Controller or CommandJoystick if needed

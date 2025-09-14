@@ -14,6 +14,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.Vision.autoAim;
 
 public class Vision extends SubsystemBase {
 
@@ -65,8 +66,8 @@ public class Vision extends SubsystemBase {
     LinearFilter autoAimFilter = LinearFilter.movingAverage(10);
     MedianFilter outlierFilter = new MedianFilter(7);
 
-    PIDController autoAnglePID = new PIDController(0.005, 0, 0.000001);
-    PIDController angularLockPID = new PIDController(0.03, 0.0005, 0.04);
+    PIDController autoAnglePID = new PIDController(0.01, 0, 0.000001);
+    PIDController angularLockPID = new PIDController(0.05, 0.0005, 0.04);
 
     // GenericEntry autoanglep = Shuffleboard.getTab("autoPID").add("kp", 0.0015).getEntry();
     // GenericEntry autoanglei = Shuffleboard.getTab("autoPID").add("ki", 0.0).getEntry();
@@ -147,9 +148,9 @@ public class Vision extends SubsystemBase {
       double targetX = x;
   
       if (currentAutoAim == autoAim.LEFT) {
-          targetX = 11.3;
+          targetX = 13.5;
       } else if (currentAutoAim == autoAim.RIGHT) {
-          targetX = -18.2; //we minused this by 1 //was -20.3
+          targetX = -22.7;
           //-19.48
       } else if (currentAutoAim == autoAim.MIDDLE) {
           targetX = 0;
@@ -185,7 +186,7 @@ public class Vision extends SubsystemBase {
     public double autotrans() {
         targetarea = area;
         if(currentAutoAim!=autoAim.MIDDLE){
-            return -autoAnglePID.calculate(targetarea, 8.55-2.13);
+            return -autoAnglePID.calculate(targetarea, 11.585-2.13);
         }
         else{
             return -autoAnglePID.calculate(targetarea, 14);

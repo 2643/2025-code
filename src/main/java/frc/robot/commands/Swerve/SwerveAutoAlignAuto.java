@@ -26,7 +26,7 @@ public class SwerveAutoAlignAuto extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (timer.hasElapsed(2)){
+    if (timer.hasElapsed(3)){
       finish = true;
     }
     System.out.println("hhffffffffffffffffffffffffjhfjfhfjhfhjhfj");

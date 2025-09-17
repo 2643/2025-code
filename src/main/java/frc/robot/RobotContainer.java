@@ -113,6 +113,11 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     // autoChooser.setDefaultOption("SPEAKER Routine", new SpeakerRoutine());
+    autoChooser.addOption("TR L2 Barge", new PathPlannerAuto("TR L2 Barge"));
+    autoChooser.addOption("BR L2 Barge", new PathPlannerAuto("BR L2 Barge"));
+    autoChooser.addOption("Move Back", new PathPlannerAuto("Move Back"));
+    autoChooser.addOption("TR L2 Processor", new PathPlannerAuto("TR L2 Processor"));
+    autoChooser.addOption("BR L2 Processor", new PathPlannerAuto("BR L2 Processor"));
     autoChooser.addOption("S1-TR-Barge-L2", new PathPlannerAuto("S1-TR-Barge-L2"));
     autoChooser.addOption("S1-TR-Barge-L3", new PathPlannerAuto("S1-TR-Barge-L3"));
     autoChooser.addOption("S2-BR-Barge-L2", new PathPlannerAuto("S2-BR-Barge-L2"));
@@ -136,6 +141,13 @@ public class RobotContainer {
     autoChooser.addOption("Algae T to Processor", new PathPlannerAuto("Algae T to Processor"));
     autoChooser.addOption("Start to Reef TL 3", new PathPlannerAuto("Start to Reef TL 3"));
     autoChooser.addOption("null", new PathPlannerAuto("null"));
+    // autoChooser.addOption("S1-Forward", new PathPlannerAuto("S1-Forward"));
+    // autoChooser.addOption("S2-Forward", new PathPlannerAuto("S2-Forward"));
+    // autoChooser.addOption("S3-Forward", new PathPlannerAuto("S3-Forward"));
+    // autoChooser.addOption("Testing2", new PathPlannerAuto("Testing2"));
+    // autoChooser.addOption("Algae T to Processor", new PathPlannerAuto("Algae T to Processor"));
+    // autoChooser.addOption("Start to Reef TL 3", new PathPlannerAuto("Start to Reef TL 3"));
+
   }
 
   /**
@@ -157,11 +169,11 @@ public class RobotContainer {
     m_IntakeButton.onFalse(new InstantCommand(() -> s_Grabber.setIntakeOutake(IntakeOuttake.NOTHING)));
     m_OuttakeButton.onTrue(new GrabberOutake());
 
-    wristDown.onTrue(new GrabberManualMoveDown());
-    wristUp.onTrue(new GrabberManualMoveUp());
+    // wristDown.onTrue(new GrabberManualMoveDown());
+    // wristUp.onTrue(new GrabberManualMoveUp());
 
-    ElevatorUp.onTrue(new ElevatorManualMoveUp());
-    ElevatorDown.onTrue(new ElevatorManualMoveDown());
+    // ElevatorUp.onTrue(new ElevatorManualMoveUp());
+    // ElevatorDown.onTrue(new ElevatorManualMoveDown());
 
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
 // 

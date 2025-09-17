@@ -90,8 +90,8 @@ public class Grabber extends SubsystemBase {
     slot0config.kI = 0;
     slot0config.kD = 0;
 
-    magicmotionconfig.MotionMagicAcceleration = 30;
-    magicmotionconfig.MotionMagicCruiseVelocity = 30;
+    magicmotionconfig.MotionMagicAcceleration = 50;
+    magicmotionconfig.MotionMagicCruiseVelocity = 50;
 
     talonWristConfig.CurrentLimits.StatorCurrentLimit = 35;
     talonWristConfig.CurrentLimits.StatorCurrentLimitEnable = true;;
@@ -100,7 +100,7 @@ public class Grabber extends SubsystemBase {
 
     grab.setNeutralMode(NeutralModeValue.Brake);
 
-    talonGrabConfig.CurrentLimits.StatorCurrentLimit = 40;
+    talonGrabConfig.CurrentLimits.StatorCurrentLimit = 60;
     talonGrabConfig.CurrentLimits.StatorCurrentLimitEnable = true;
 
     grab.getConfigurator().apply(talonGrabConfig);

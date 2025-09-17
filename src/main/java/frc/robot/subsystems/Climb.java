@@ -31,7 +31,7 @@
 
 //   public states current_state = states.INTIALIZING;
 //   /** Creates a new ClimbConstants. */
-//   TalonFX motor = new TalonFX(Constants.ClimbConstants.MOTOR_PORT);
+//   TalonFX motor = new TalonFX(Constants.ClimbConstants.MOTOR_PORT);  
 //   TalonFXConfiguration config = new TalonFXConfiguration();
 //   public DigitalInput limitswitch1 = new DigitalInput(Constants.ClimbConstants.LIMITSWITCH_PORT);
 

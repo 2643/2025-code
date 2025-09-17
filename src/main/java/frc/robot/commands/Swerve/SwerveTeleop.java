@@ -107,7 +107,7 @@ public class SwerveTeleop extends Command {
     } else {
       translationVal = -squareAxis(logAxis(translationSup.getAsDouble()), Constants.SwerveConstants.STICK_DEADBAND) /2;
       strafeVal = -squareAxis(logAxis(strafeSup.getAsDouble()), Constants.SwerveConstants.STICK_DEADBAND) / 1.2 /2;
-      rotationval = -squareAxis(logAxis(rawRotation), Constants.SwerveConstants.STICK_ROTATION_DEADBAND) * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND /2;
+      rotationval = squareAxis(logAxis(rawRotation), Constants.SwerveConstants.STICK_ROTATION_DEADBAND) * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND /2;
       fieldRelative = true;
     }
 

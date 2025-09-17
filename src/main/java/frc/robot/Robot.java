@@ -5,19 +5,15 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.ParallelCommands.ElevatorAndGrabberButtonStates;
 import frc.robot.commands.ParallelCommands.ElevatorAndGrabberMovePos;
 import frc.robot.commands.ParallelCommands.ResetAll;
-import frc.robot.commands.Swerve.SwerveAuto;
 import frc.robot.commands.Swerve.SwerveEncoderJoymode;
 import frc.robot.commands.Swerve.SwerveTeleop;
 import frc.robot.subsystems.Elevator.stateLevel;
@@ -94,13 +90,15 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     RobotContainer.s_Swerve.resetModulesToAbsolute();
-    CommandScheduler.getInstance().schedule(new SwerveAuto().withTimeout(2).andThen(new InstantCommand(()-> RobotContainer.s_Swerve.drive(new Translation2d(0,0).times(Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND/2),0, true, true))));
+    // CommandScheduler.getInstance().schedule(new SwerveAuto().withTimeout(2));
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     
-    // schedule the autonomous command (example)
+    //schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+
+
     
     //CommandScheduler.getInstance().setDefaultCommand(RobotContainer.s_Swerve, new SwerveTeleop());
 
@@ -114,9 +112,9 @@ public class Robot extends TimedRobot {
     // CommandScheduler.getInstance().schedule(new ResetAll());
     // }
 
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
+    // if (m_autonomousCommand != null) {
+    //   m_autonomousCommand.cancel();
+    // }
     CameraServer.startAutomaticCapture();
   }
   
@@ -133,6 +131,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    System.out.println("jegnergnergnkjergnkerngkerngnrgkjnekjgnerngenrgkreng");
     RobotContainer.s_Swerve.resetModulesToAbsolute();
     curPlaceGrab = RobotContainer.s_Grabber.getPlacement();
     curPlaceElevator = RobotContainer.s_Elevator.getLevel();
@@ -155,7 +154,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-
+    System.out.println("here");
     CommandScheduler.getInstance().setDefaultCommand(RobotContainer.s_Swerve, new SwerveTeleop());
 
     if (RobotContainer.operatorJoystick.getPOV() == 0) {

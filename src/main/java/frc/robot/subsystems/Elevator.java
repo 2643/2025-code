@@ -22,8 +22,6 @@ public class Elevator extends SubsystemBase {
   TalonFX followerMotor = new TalonFX(Constants.ElevatorConstants.FOLLOWER_MOTOR_PORT);
   DigitalInput limitSwitch = new DigitalInput(Constants.ElevatorConstants.LIMITSWITCH_PORT);
 
-  
-
   public static enum stateLevel {
     L1,
     L2,
@@ -38,6 +36,7 @@ public class Elevator extends SubsystemBase {
     LOWALGAE,
     ALGAE_ON_TOP
   }
+
   public enum stateReset {
     NOT_INITIALIZED,
     INITIALIZING,
@@ -58,7 +57,7 @@ public class Elevator extends SubsystemBase {
   public Elevator() {
     
     // This TalonFX should be configured with a kP of 1, a kI of 0, a kD of 10, and a kV of 2 on slot 0
-    configs.Slot0.kP = 23;
+    configs.Slot0.kP = 13;
     configs.Slot0.kI = 0;
     configs.Slot0.kD = 0;
     
@@ -67,12 +66,10 @@ public class Elevator extends SubsystemBase {
     followerMotor.setControl(new Follower(Constants.ElevatorConstants.LEADER_MOTOR_PORT, true));
     
     // Get Position and Velocity
-    var position = masterMotor.getPosition();
-    var velocity = masterMotor.getVelocity();
     
     //set motor acceleration for motion magic
-    configs.MotionMagic.MotionMagicAcceleration = 60;
-    configs.MotionMagic.MotionMagicCruiseVelocity = 60;
+    configs.MotionMagic.MotionMagicAcceleration = 80;
+    configs.MotionMagic.MotionMagicCruiseVelocity = 80;
 
     // Write these configs to the TalonFX
     masterMotor.getConfigurator().apply(configs);

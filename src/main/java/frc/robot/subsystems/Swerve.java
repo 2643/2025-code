@@ -1,8 +1,5 @@
 package frc.robot.subsystems;
 
-import java.lang.reflect.Field;
-import java.util.Map;
-
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -24,7 +21,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -44,7 +40,10 @@ public class Swerve extends SubsystemBase {
   public SwerveDrivePoseEstimator robotPose;
   public boolean encoderJoymodeState = false; 
   public boolean autoaimstate = false;
-
+  private double simulatedYaw = 0.0;
+  double fieldLength = 16.46; // in meters
+  double fieldWidth = 8.23;   // in meters
+  public RobotConfig config;
   // ShuffleboardTab joystickTab = Shuffleboard.getTab("Joystick");
   // public GenericEntry pEntry = joystickTab.add("P Gain", 0.08).getEntry();
   // public GenericEntry iEntry = joystickTab.add("I Gain", 0.00).getEntry();
@@ -52,13 +51,19 @@ public class Swerve extends SubsystemBase {
   // public GenericEntry currentRotValueEntry = joystickTab.add("Current Rotation Value", 0.005).getEntry();
   // public GenericEntry targetrotValueEntry = joystickTab.add("Target Rotation Value", 0.005).getEntry();
   GenericEntry EncoderModeEntry = Shuffleboard.getTab("Swerve").add("Encoder Mode",encoderJoymodeState).getEntry();
-
+  GenericEntry IdkEntry = Shuffleboard.getTab("Swerve").add("weiugweut",autoaimstate).getEntry();
+  
 
   public Swerve() {
+
+    
+    mSpeeds = new ChassisSpeeds(0, 0, 0);
+    // setPose(new Pose2d(fieldLength / 2, fieldWidth / 2, new Rotation2d(0)));
 
     gyro = new Pigeon2(Constants.SwerveConstants.PIGEON_ID);
     gyro.getConfigurator().apply(new Pigeon2Configuration());
     gyro.setYaw(0);
+    SmartDashboard.putData("Field", field);
 
     // Initialize the Swerve modules array
     mSwerveMods = new SwerveModules[] {
@@ -75,7 +80,7 @@ public class Swerve extends SubsystemBase {
     robotPose = new SwerveDrivePoseEstimator(Constants.SwerveConstants.SWERVE_KINEMATICS, getGyroYaw(), getModulePositions(),
         getPose());
 
-    RobotConfig config = null;
+    
     try {
       config = RobotConfig.fromGUISettings();
     } catch (Exception e) {
@@ -92,8 +97,8 @@ public class Swerve extends SubsystemBase {
                                                  // Also optionally outputs individual module feedforwards
         new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic
                                         // drive trains
-            new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-            new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+            new PIDConstants(0.5, 0.0, 0.0), // Translation PID constants
+            new PIDConstants(0.5, 0.0, 0.0) // Rotation PID constants
         ),
         config, // The robot configuration
         () -> {
@@ -110,6 +115,7 @@ public class Swerve extends SubsystemBase {
         },
         this // Reference to this subsystem to set requirements
     );
+    // setPose(new Pose2d(fieldLength / 2, fieldWidth / 2, new Rotation2d(0)));
   }
 
   // return modulestates of all swerve modules in a list
@@ -129,12 +135,12 @@ public class Swerve extends SubsystemBase {
     }
     return positions;
   }
-  public void AutoAimState() {
-    if(autoaimstate == true){
-      autoMove();
-    }
+  // public void AutoAimState() {
+  //   if(autoaimstate == true){
+  //     autoMove();
+  //   }
 
-  }
+  // }
   // move to set location
   public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
     SwerveModuleState[] swerveModuleStates = Constants.SwerveConstants.SWERVE_KINEMATICS.toSwerveModuleStates(
@@ -153,27 +159,64 @@ public class Swerve extends SubsystemBase {
     for (SwerveModules mod : mSwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.modNumber], isOpenLoop);
 
+      
+      // Simulate distance traveled
+      double deltaTime = 0.02; // typical 20ms loop
+      double distance = swerveModuleStates[mod.modNumber].speedMetersPerSecond * deltaTime;
+
+      // Get the current position
+      SwerveModulePosition currentPos = mod.getPosition();
+
+      // Store the new distance
+      double newDistance = currentPos.distanceMeters + distance;
+
+      // Update your simulated position/angle in the module
+      mod.setSimPosition(newDistance, swerveModuleStates[mod.modNumber].angle);
+
     }
   }
 
   public void autoMove() {
-    if (RobotContainer.s_Vision.isApriltag() == true) {
-      double strafeVal = RobotContainer.s_Vision.autostrafe() * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
-      double rotationval = RobotContainer.s_Vision.autoAngle() * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
-      double translationVal = RobotContainer.s_Vision.autotrans() * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
-      RobotContainer.s_Swerve.drive(new Translation2d(translationVal, strafeVal).times(Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND),
-          rotationval, false, true);
+    System.out.println("i");
+    if (autoaimstate){
+      if (RobotContainer.s_Vision.isApriltag() == true) {
+        double strafeVal = -RobotContainer.s_Vision.autostrafe() * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND/4;
+        double rotationval = -RobotContainer.s_Vision.autoAngle() * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND/4;
+        double translationVal = -RobotContainer.s_Vision.autotrans() * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND/4;
+        drive(new Translation2d(translationVal, strafeVal),
+            rotationval, false, true);
+      }
+      else {
+        drive(new Translation2d(0, 0), 0, false, true);
+      }
+    } else {
+      drive(new Translation2d(0, 0), 0, false, true);
     }
   }
 
   // set speeds of all modules and move to current location
   public void drive(ChassisSpeeds speeds) {
     SwerveModuleState[] swerveModuleStates = Constants.SwerveConstants.SWERVE_KINEMATICS.toSwerveModuleStates(speeds);
-    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND/2);
     mSpeeds = speeds;
 
     for (SwerveModules mod : mSwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.modNumber], true);
+
+      
+      // Simulate distance traveled
+      double deltaTime = 0.02; // typical 20ms loop
+      // double distance = swerveModuleStates[mod.modNumber].speedMetersPerSecond * deltaTime;
+
+      // // Get the current position
+      // SwerveModulePosition currentPos = mod.getPosition();
+
+      // // Store the new distance
+      // double newDistance = currentPos.distanceMeters + distance;
+
+      // // Update your simulated position/angle in the module
+      // mod.setSimPosition(newDistance, swerveModuleStates[mod.modNumber].angle);
+
     }
   }
 
@@ -195,7 +238,12 @@ public class Swerve extends SubsystemBase {
   // return current position of swerveodometry (the chassis internal positioning
   // system)
   public Pose2d getPose() {
-    return swerveOdometry.getPoseMeters();
+    if(swerveOdometry.getPoseMeters()!=null){
+      return swerveOdometry.getPoseMeters();
+    }
+    else{
+      return new Pose2d();
+    }
   }
 
   // Change the position of the swerveodometry
@@ -228,6 +276,7 @@ public class Swerve extends SubsystemBase {
   // returns curent rotation
   public Rotation2d getGyroYaw() {
     return Rotation2d.fromDegrees(gyro.getYaw().getValueAsDouble());
+    
   }
 
   // reset all modules to absolute postion (what was recorded previously, accounts
@@ -241,8 +290,10 @@ public class Swerve extends SubsystemBase {
   @Override
   public void periodic() {
     swerveOdometry.update(getGyroYaw(), getModulePositions());
+    field.setRobotPose(swerveOdometry.getPoseMeters());
     // This method will be called once per scheduler run
     EncoderModeEntry.setBoolean(encoderJoymodeState);
+    IdkEntry.setBoolean(autoaimstate);
     SmartDashboard.putNumber("Gyro Yaw", getGyroYaw().getDegrees());
 
     for (SwerveModules mod : mSwerveMods) {
@@ -250,8 +301,101 @@ public class Swerve extends SubsystemBase {
       SmartDashboard.putNumber("Mod " + mod.modNumber + " CANcoder", mod.getCANcoder().getDegrees());
       SmartDashboard.putNumber("Mod " + mod.modNumber + " Angle", mod.getPosition().angle.getDegrees());
       SmartDashboard.putNumber("Mod " + mod.modNumber + " Velocity", mod.getState().speedMetersPerSecond);
-
     }
 
   }
+  // @Override
+  // public void simulationPeriodic() {
+  //     double deltaTime = 0.02; // typical 20ms loop
+  
+  //     // double translationVal = RobotContainer.driverJoystick.getRawAxis(1);
+  //     // double strafeVal = -RobotContainer.driverJoystick.getRawAxis(0);
+  //     // double rotationVal = -RobotContainer.driverJoystick.getRawAxis(4);
+  //     double translationVal = 0;
+  //     double strafeVal = 0;
+  //     double rotationVal = 0;
+
+  //     if (DriverStation.isAutonomous()) {
+  //       // Use autonomous command values
+  //       ChassisSpeeds chassisSpeeds = mSpeeds;
+  //       translationVal = chassisSpeeds.vxMetersPerSecond / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND;
+  //       strafeVal = chassisSpeeds.vyMetersPerSecond / Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND;
+  //       rotationVal = chassisSpeeds.omegaRadiansPerSecond / Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
+  //   } else {
+  //       // Use joystick inputs
+  //       translationVal = RobotContainer.driverJoystick.getRawAxis(1);
+  //       strafeVal = -RobotContainer.driverJoystick.getRawAxis(0);
+  //       rotationVal = -RobotContainer.driverJoystick.getRawAxis(4);
+  //   }
+  
+  //     // Update simulated yaw based on rotation input
+  //     simulatedYaw += rotationVal * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * deltaTime;
+  
+  //     // Calculate chassis speeds based on current heading
+  //     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+  //         -translationVal * Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND,
+  //         strafeVal * Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND,
+  //         rotationVal * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+  //         Rotation2d.fromDegrees(simulatedYaw)
+  //     );
+  
+  //     SwerveModuleState[] swerveModuleStates = Constants.SwerveConstants.SWERVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
+  
+  //     for (int i = 0; i < mSwerveMods.length; i++) {
+  //         SwerveModules mod = mSwerveMods[i];
+  //         SwerveModuleState state = swerveModuleStates[i];
+  
+  //         // Simulate distance traveled
+  //         double distance = state.speedMetersPerSecond * deltaTime;
+  
+  //         // Get the current position
+  //         SwerveModulePosition currentPos = mod.getPosition();
+  
+  //         // Store the new distance
+  //         double newDistance = currentPos.distanceMeters + distance;
+  
+  //         // Update your simulated position/angle in the module
+  //         mod.setSimPosition(newDistance, state.angle);
+  //     }
+  
+  //     swerveOdometry.update(Rotation2d.fromDegrees(simulatedYaw), getModulePositions());
+  //     field.setRobotPose(swerveOdometry.getPoseMeters());
+  // }
+// @Override
+// public void simulationPeriodic() {
+//     double deltaTime = 0.02; // typical 20ms loop
+
+//     double translationVal = RobotContainer.driverJoystick.getRawAxis(1);
+//     double strafeVal = -RobotContainer.driverJoystick.getRawAxis(0);
+//     double rotationVal = -RobotContainer.driverJoystick.getRawAxis(4);
+
+//     ChassisSpeeds chassisSpeeds = new ChassisSpeeds(
+//         -translationVal * Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND,
+//         strafeVal * Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND,
+//         rotationVal * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
+//     );
+
+//     SwerveModuleState[] swerveModuleStates = Constants.SwerveConstants.SWERVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
+
+//     for (int i = 0; i < mSwerveMods.length; i++) {
+//         SwerveModules mod = mSwerveMods[i];
+//         SwerveModuleState state = swerveModuleStates[i];
+
+//         // Simulate distance traveled
+//         double distance = state.speedMetersPerSecond * deltaTime;
+
+//         // Get the current position
+//         SwerveModulePosition currentPos = mod.getPosition();
+
+//         // Store the new distance
+//         double newDistance = currentPos.distanceMeters + distance;
+
+//         // Update your simulated position/angle in the module
+//         mod.setSimPosition(newDistance, state.angle);
+//     }
+//     simulatedYaw += rotationVal * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * deltaTime * 5;
+
+//     swerveOdometry.update(Rotation2d.fromDegrees(simulatedYaw), getModulePositions());
+//     field.setRobotPose(swerveOdometry.getPoseMeters());
+// }
 }

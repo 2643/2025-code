@@ -5,7 +5,6 @@
 package frc.robot.commands.Grabber;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Grabber.GrabberPlacement;
 

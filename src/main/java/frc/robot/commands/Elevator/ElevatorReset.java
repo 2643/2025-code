@@ -5,10 +5,8 @@
 package frc.robot.commands.Elevator;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Elevator.stateReset;
-import frc.robot.subsystems.Grabber.States;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorReset extends Command {
@@ -35,14 +33,15 @@ public class ElevatorReset extends Command {
   public void execute() {
     // System.out.println(finish);
     if (RobotContainer.s_Elevator.getLimitSwitch()) {
-        RobotContainer.s_Elevator.movePosition(RobotContainer.s_Elevator.getPosition()+0.03);
+        RobotContainer.s_Elevator.movePosition(RobotContainer.s_Elevator.getPosition()-0.03);
         RobotContainer.s_Elevator.changeState(stateReset.INITIALIZED);
     } 
     if(!RobotContainer.s_Elevator.getLimitSwitch() && RobotContainer.s_Elevator.getState() != stateReset.NOT_INITIALIZED){
       finish = true;
     }
     if(RobotContainer.s_Elevator.getState() == stateReset.NOT_INITIALIZED && !RobotContainer.s_Elevator.getLimitSwitch() ){
-      RobotContainer.s_Elevator.movePosition(RobotContainer.s_Elevator.getPosition()-0.03);
+      RobotContainer.s_Elevator.movePosition(RobotContainer.s_Elevator.getPosition()+0.03);
+     
     }
   }
 

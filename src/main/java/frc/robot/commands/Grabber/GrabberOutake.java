@@ -4,29 +4,29 @@
 
 package frc.robot.commands.Grabber;
 
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Grabber.IntakeOuttake;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class GrabberOutake extends Command {
-  /** Creates a new outtake. */
-  boolean finished = false;
+  /** Creates a new GrabberOutake. */
+
+  boolean finish;
   public GrabberOutake() {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.s_Grabber);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    finish = true;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    finished = true;
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -37,6 +37,6 @@ public class GrabberOutake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return finished;
+    return finish;
   }
 }

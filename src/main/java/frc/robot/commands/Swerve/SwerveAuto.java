@@ -6,12 +6,10 @@ package frc.robot.commands.Swerve;
 
 import edu.wpi.first.math.geometry.Translation2d;
 // import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Grabber.IntakeOuttake;
+
 
 public class SwerveAuto extends Command {
   /** Creates a new AutoSwerve. */

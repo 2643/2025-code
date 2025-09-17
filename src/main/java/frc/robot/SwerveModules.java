@@ -29,6 +29,8 @@ public class SwerveModules extends SubsystemBase {
   private PositionVoltage pv = new PositionVoltage(0);
   public int modNumber;
   private double desiredstatereturn;
+  private double simDistance;
+  private Rotation2d simAngle;
 
   // constructor intialization
   public SwerveModules(int modNumber, int drivemotor, int turnmotor, int cancoder, Rotation2d angleOfset) {
@@ -37,6 +39,8 @@ public class SwerveModules extends SubsystemBase {
     this.cancoder = new CANcoder(cancoder);
     this.angleOfset = angleOfset;
     this.modNumber = modNumber;
+    this.simAngle = new Rotation2d(0);
+    this.simDistance = 0.0;
     
     // this.turnmotor.setInverted(inversion);
     this.drivemotor.getConfigurator().apply(Robot.ctreConfigs.swerveDriveFXConfig);
@@ -75,9 +79,13 @@ public class SwerveModules extends SubsystemBase {
   // returns SwerveModulePosition object of the drivemotor position in distance
   // and Rotation2d with rotation of turnmotor
   public SwerveModulePosition getPosition() {
+    if (Robot.isSimulation()) {
+      return new SwerveModulePosition(simDistance, simAngle);
+  } else {
     return new SwerveModulePosition(
         Conversions.rotationsToMeters(drivemotor.getPosition().getValueAsDouble(), Constants.SwerveConstants.WHEEL_CIRCUMFERENCE),
         Rotation2d.fromRotations(turnmotor.getPosition().getValueAsDouble()));
+  }
 
   }
 
@@ -90,6 +98,12 @@ public class SwerveModules extends SubsystemBase {
         Rotation2d.fromRotations(turnmotor.getPosition().getValueAsDouble()));
 
   }
+
+  public void setSimPosition(double distance, Rotation2d angle) {
+    // Store the distance and angle in your module state/position
+    this.simDistance = distance;
+    this.simAngle = angle;
+}
 
   // optimize wheel rotation path
   public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {

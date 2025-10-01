@@ -115,7 +115,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     // autoChooser.setDefaultOption("SPEAKER Routine", new SpeakerRoutine());
-    autoChooser.addOption("TR L2 Barge", new PathPlannerAuto("TR L2 Barge"));
+    autoChooser.addOption("S1-TR", new PathPlannerAuto("S1-TR"));
     autoChooser.addOption("BR L2 Barge", new PathPlannerAuto("BR L2 Barge"));
     autoChooser.addOption("Move Back", new PathPlannerAuto("Move Back"));
     autoChooser.addOption("TR L2 Processor", new PathPlannerAuto("TR L2 Processor"));

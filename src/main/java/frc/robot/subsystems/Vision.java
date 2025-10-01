@@ -171,12 +171,12 @@ public class Vision extends SubsystemBase {
             targetZ = 0;
         }
         if(currentAutoAim ==autoAim.RIGHT)
-            return -autoAnglePID.calculate(targetZ-18);
+            return autoAnglePID.calculate(targetZ-18);
         else if(currentAutoAim == autoAim.LEFT){
-            return -autoAnglePID.calculate(targetZ+16);
+            return autoAnglePID.calculate(targetZ+16);
         }
         else{
-            return -autoAnglePID.calculate(targetZ+2);
+            return autoAnglePID.calculate(targetZ+2);
         }
            
 

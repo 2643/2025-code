@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.125717213114753,
-        "y": 6.392571721311475
+        "x": 5.96380380794702,
+        "y": 6.59648178807947
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.057772452689893,
-        "y": 3.082487019283958
+        "x": 5.895859047522159,
+        "y": 3.286397086051953
       },
       "isLocked": false,
       "linkedName": "TRBack"
@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 6.078515467282291,
-        "y": 5.250808438288466
+        "y": 5.250808438288468
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -128.15722658736914
+    "rotation": -119.99999999999999
   },
   "useDefaultConstraints": true
 }

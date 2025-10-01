@@ -56,7 +56,7 @@ public final class Constants {
     public static final double TOP_HARD_LIMIT = 0.943;
 
     // public static 
-
+    //negative higher elevator
     public static final double LEVEL_1 = 0;
     public static final double LEVEL_2 = -0.265;
     public static final double LEVEL_3 = -0.52042-0.012;
@@ -90,6 +90,7 @@ public final class Constants {
     public static final double PROCESSOR_POSITION = 0.19181 + 12*0.006;
     public static final double ALGAE_ON_TOP = 0.2579;
 
+    //level 2 and 3
     public static final double LEVEL_1_TO_3 = 0.17831+27*0.006;
     public static final double LEVEL_1 = 0.32824;
 

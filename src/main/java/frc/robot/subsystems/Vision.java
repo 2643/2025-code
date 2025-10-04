@@ -146,7 +146,7 @@ public class Vision extends SubsystemBase {
     public double autostrafe() {
       
       double targetX = x;
-  
+        //positive = left
       if (currentAutoAim == autoAim.LEFT) {
           targetX = 13.5;
       } else if (currentAutoAim == autoAim.RIGHT) {

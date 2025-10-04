@@ -70,7 +70,7 @@ public class RobotContainer {
   // public static JoystickButton ElevatorDown = new JoystickButton(operatorJoystick, 9); // Elevator Down Slightly is share
 // nah dont trust those comments...
   public static JoystickButton Next = new JoystickButton(operatorJoystick, 6);//Previous is Left Bumper
-  public static JoystickButton Previous = new JoystickButton(operatorJoystick, 7);//Next is Right Bumper (R1)
+  public static JoystickButton Previous = new JoystickButton(operatorJoystick, 8);//Next is Right Bumper (R1)
   public static JoystickButton Feeder = new JoystickButton(operatorJoystick, 3);//Coral Feeder intake is circle
   public static JoystickButton Ground = new JoystickButton(operatorJoystick, 2);//Ground Algae intake is triangle
   // public static JoystickButton moveClimb = new JoystickButton(operatorJoystick, 10); //CHANGE THIS PORT!!!

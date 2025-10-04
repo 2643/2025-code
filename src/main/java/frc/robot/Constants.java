@@ -195,9 +195,9 @@ public final class Constants {
     public static final double DRIVE_KA = 0.21;
 
     /* Swerve Profiling Values */
-    public static final double MAX_SPEED_METERS_PER_SECOND = 1.5;
-    //was 4.5 changed to 1.5 for slow mode in demo
-    public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = 10.0;
+    public static final double MAX_SPEED_METERS_PER_SECOND = 35;
+    //was 4.5 changed to 1.5 for slow mode in demo (not applicable)
+    public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = 30;
 
     /* Neutral Modes */
     public static final NeutralModeValue ANGLE_NEUTRAL_MODE = NeutralModeValue.Coast;

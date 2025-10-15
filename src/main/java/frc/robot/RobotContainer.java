@@ -57,8 +57,8 @@ public class RobotContainer {
   public static JoystickButton LeftAim = new JoystickButton(driverJoystick, 1);
   public static JoystickButton RightAim = new JoystickButton(driverJoystick, 3);
 
-  public static JoystickButton wristUp = new JoystickButton(driverJoystick, 8);
-  public static JoystickButton wristDown = new JoystickButton(driverJoystick, 7);
+  public static JoystickButton wristUp = new JoystickButton(driverJoystick, 10);
+  public static JoystickButton wristDown = new JoystickButton(driverJoystick, 9);
   // public static JoystickButton Recalibrate = new JoystickButton(driverJoystick,
   // 9);
 
@@ -66,8 +66,8 @@ public class RobotContainer {
   ComplexWidget ShuffleBoardAutonomousRoutines = Shuffleboard.getTab("Driver")
       .add("Autonomous Routines Selector", autoChooser).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 2)
       .withPosition(0, 2);
-  // public static JoystickButton ElevatorUp = new JoystickButton(operatorJoystick, 10);//Elevator Up slightly is options
-  // public static JoystickButton ElevatorDown = new JoystickButton(operatorJoystick, 9); // Elevator Down Slightly is share
+  public static JoystickButton ElevatorUp = new JoystickButton(operatorJoystick, 10);//Elevator Up slightly is options
+  public static JoystickButton ElevatorDown = new JoystickButton(operatorJoystick, 9); // Elevator Down Slightly is share
 // nah dont trust those comments...
   public static JoystickButton Next = new JoystickButton(operatorJoystick, 6);//Previous is Left Bumper
   public static JoystickButton Previous = new JoystickButton(operatorJoystick, 8);//Next is Right Bumper (R1)
@@ -151,11 +151,11 @@ public class RobotContainer {
     m_IntakeButton.onFalse(new InstantCommand(() -> s_Grabber.setIntakeOutake(IntakeOuttake.NOTHING)));
     m_OuttakeButton.onTrue(new GrabberOutake());
 
-    // wristDown.onTrue(new GrabberManualMoveDown());
-    // wristUp.onTrue(new GrabberManualMoveUp());
+    wristDown.onTrue(new GrabberManualMoveDown());
+    wristUp.onTrue(new GrabberManualMoveUp());
 
-    // ElevatorUp.onTrue(new ElevatorManualMoveUp());
-    // ElevatorDown.onTrue(new ElevatorManualMoveDown());
+    ElevatorUp.onTrue(new ElevatorManualMoveUp());
+    ElevatorDown.onTrue(new ElevatorManualMoveDown());
 
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
 // 

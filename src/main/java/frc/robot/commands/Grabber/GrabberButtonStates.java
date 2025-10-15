@@ -40,6 +40,7 @@ public class GrabberButtonStates extends Command {
       case FEEDER -> RobotContainer.s_Grabber.setPlacement(GrabberPlacement.FEEDER);
       case GROUND -> RobotContainer.s_Grabber.setPlacement(GrabberPlacement.GROUND);
       case ALGAE_ON_TOP -> RobotContainer.s_Grabber.setPlacement(GrabberPlacement.ALGAE_ON_TOP);
+      case AUTO_LEVEL_4 -> RobotContainer.s_Grabber.setPlacement(GrabberPlacement.AUTO_LEVEL_4);
       default -> {
           }
     }

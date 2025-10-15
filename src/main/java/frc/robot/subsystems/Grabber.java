@@ -43,7 +43,8 @@ public class Grabber extends SubsystemBase {
     PROCESSOR,
     HIGHALGAE,
     LOWALGAE,
-    ALGAE_ON_TOP
+    ALGAE_ON_TOP,
+    AUTO_LEVEL_4
   }
 
   public enum IntakeOuttake {

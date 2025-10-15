@@ -97,11 +97,11 @@ public class SwerveTeleop extends Command {
 
     if (RobotContainer.s_Vision.getAutoAim() != autoAim.NONE && RobotContainer.s_Vision.isApriltag() /*&& RobotContainer.s_Swerve.autoaimstate*/) {
 
-      strafeVal = -RobotContainer.s_Vision.autostrafe()/4;
+      strafeVal = -RobotContainer.s_Vision.autostrafe()/4/2;
       rotationval = -RobotContainer.s_Vision.autoAngle()
-          * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND /1.5/4;
+          * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND /1.5/4/2;
       translationVal = -RobotContainer.s_Vision.autotrans()
-          * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND/4;
+          * Constants.SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND/4/2;
       fieldRelative = false;
 
     } else { // this is actual speed dont divide this values who tf changed it before :(

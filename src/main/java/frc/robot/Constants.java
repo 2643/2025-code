@@ -61,6 +61,8 @@ public final class Constants {
     public static final double LEVEL_2 = -0.265;
     public static final double LEVEL_3 = -0.52042-0.012;
     public static final double LEVEL_4 = -0.92;
+    public static final double AUTO_LEVEL_4_END = -0.5646;
+    public static final double AUTO_LEVEL_4_START = -0.7320;
     public static final double GROUND_POSITION = 0.019;
     public static final double FEEDER_POSITION = 0.019;
     public static final double BARGE_POSITION = -0.9124;
@@ -82,7 +84,8 @@ public final class Constants {
     // public static final double TOP_SOFT_LIMIT = 0.05;
     // public static final double BOTTOM_SOFT_LIMIT = -0.4 ;
 
-    public static final double LEVEL_4 = 0.3949;
+    public static final double LEVEL_4 = 0.3949; 
+    public static final double AUTO_LEVEL_4 = 0.5898;
     public static final double GROUND_POSITION = 0.17181-5*0.006;
     public static final double FEEDER_POSITION = 0.6492056;
     public static final double BARGE_POSITION = 0.71209;

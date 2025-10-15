@@ -34,7 +34,9 @@ public class Elevator extends SubsystemBase {
     PROCESSOR,
     HIGHALGAE,
     LOWALGAE,
-    ALGAE_ON_TOP
+    ALGAE_ON_TOP,
+    AUTO_LEVEL_4_START,
+    AUTO_LEVEL_4_END
   }
 
   public enum stateReset {

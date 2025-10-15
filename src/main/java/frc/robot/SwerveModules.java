@@ -14,6 +14,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.math.Conversions;
 
@@ -136,5 +137,7 @@ public class SwerveModules extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("fuck you: " + this.modNumber, this.drivemotor.getStatorCurrent().getValueAsDouble());
+    SmartDashboard.putNumber("fuck you part 2: " + this.modNumber, this.turnmotor.getStatorCurrent().getValueAsDouble());
   }
 }

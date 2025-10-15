@@ -154,7 +154,7 @@ public class Swerve extends SubsystemBase {
                 translation.getY(),
                 rotation));
     mSpeeds = new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
-    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND);
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, 4.5*9); // fuck ass drive needs *9 ig
 
     for (SwerveModules mod : mSwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.modNumber], isOpenLoop);

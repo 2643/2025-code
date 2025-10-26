@@ -7,23 +7,19 @@
         {
           "type": "named",
           "data": {
-<<<<<<<< HEAD:src/main/deploy/pathplanner/autos/S1-Forward.auto
-            "pathName": "S1-Forward"
-========
             "name": "ResetAll"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "S2-MR"
->>>>>>>> 91d3b359e8b20e1d73a13053bdea0bcaa7949d74:src/main/deploy/pathplanner/autos/Move Back.auto
+            "pathName": "S2-Forward"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Fin",
   "choreoAuto": false
 }

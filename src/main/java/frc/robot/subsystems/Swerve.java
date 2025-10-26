@@ -97,7 +97,7 @@ public class Swerve extends SubsystemBase {
                                                  // Also optionally outputs individual module feedforwards
         new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic
                                         // drive trains
-            new PIDConstants(0.5, 0.0, 0.0), // Translation PID constants
+            new PIDConstants(5, 0.0, 0.0), // Translation PID constants
             new PIDConstants(0.5, 0.0, 0.0) // Rotation PID constants
         ),
         config, // The robot configuration
@@ -199,6 +199,7 @@ public class Swerve extends SubsystemBase {
     SwerveModuleState[] swerveModuleStates = Constants.SwerveConstants.SWERVE_KINEMATICS.toSwerveModuleStates(speeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConstants.MAX_SPEED_METERS_PER_SECOND/2);
     mSpeeds = speeds;
+    // mSpeeds = new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
 
     for (SwerveModules mod : mSwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.modNumber], true);

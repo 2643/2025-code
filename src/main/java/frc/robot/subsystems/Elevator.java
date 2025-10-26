@@ -59,7 +59,7 @@ public class Elevator extends SubsystemBase {
   public Elevator() {
     
     // This TalonFX should be configured with a kP of 1, a kI of 0, a kD of 10, and a kV of 2 on slot 0
-    configs.Slot0.kP = 13;
+    configs.Slot0.kP = 11;
     configs.Slot0.kI = 0;
     configs.Slot0.kD = 0;
     

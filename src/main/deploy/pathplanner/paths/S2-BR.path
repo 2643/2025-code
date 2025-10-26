@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 8.103688524590162,
-        "y": 4.091
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
         "x": 7.211857509872305,
-        "y": 3.3887488923867024
+        "y": 6.297748892386702
       },
       "isLocked": false,
       "linkedName": "S2"
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

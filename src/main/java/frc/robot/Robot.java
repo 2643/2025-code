@@ -136,14 +136,15 @@ public class Robot extends TimedRobot {
     curPlaceGrab = RobotContainer.s_Grabber.getPlacement();
     curPlaceElevator = RobotContainer.s_Elevator.getLevel();
 
-    if(
-    RobotContainer.s_Grabber.getState() == States.INITIALIZING &&
-    RobotContainer.s_Elevator.getState() == stateReset.INITIALIZING){
-    CommandScheduler.getInstance().schedule(new ResetAll());
-    }
+    
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+    } else {
+      if( RobotContainer.s_Grabber.getState() == States.INITIALIZING &&
+    RobotContainer.s_Elevator.getState() == stateReset.INITIALIZING){
+    CommandScheduler.getInstance().schedule(new ResetAll());
+    }
     }
     CameraServer.startAutomaticCapture();
 
